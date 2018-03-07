@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Pelvicfloortraining</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Dagbog.menu.Træningmængde">Træningsmængde</string>
+    <string name="Dagbog.menu.Vandladning">Vandladning</string>
+    <string name="Dagbog.menu.væske">indtaget Væske </string>
     <string name="Main.dagbog">Dagbog </string>
 </resources>
