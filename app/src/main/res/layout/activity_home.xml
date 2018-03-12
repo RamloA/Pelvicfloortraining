@@ -34,7 +34,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Button" />
+            android:text="Training"
+            android:onClick="onTraining"/>
+
 
         <Button
             android:layout_width="wrap_content"

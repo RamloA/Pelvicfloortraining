@@ -18,4 +18,10 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent (this, dagbog.class);
         startActivity(intent);
     }
+
+    public void onTraining(View view) {
+        Intent intent = new Intent (this, Training.class);
+        startActivity(intent);
+    }
+
 }
