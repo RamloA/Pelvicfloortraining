@@ -14,7 +14,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void onDagbog(View view) {
+    public void onDairy(View view) {
         Intent intent = new Intent (this, dagbog.class);
         startActivity(intent);
     }

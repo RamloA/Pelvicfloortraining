@@ -1,7 +1,6 @@
 package com.example.pelvicfloortraining;
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +14,10 @@ import android.widget.Button;
 
 public class Training extends AppCompatActivity {
 
+
     private static final String TAG = "Training";
     BluetoothAdapter mBluetoothAdapter;
+
 
     private final BroadcastReceiver mBroadcastRecevier1 = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -43,7 +44,6 @@ public class Training extends AppCompatActivity {
 
     };
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -65,9 +65,11 @@ public class Training extends AppCompatActivity {
             };
         });
 
+
     }
 
     public void enableDisablBT() {
+
         if (mBluetoothAdapter == null) {
             Log.d(TAG, "enabledisableBT: Does not have BT caoabilities");
         }

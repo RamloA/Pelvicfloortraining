@@ -25,8 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/Main.dagbog"
-            android:onClick="onDagbog"
+            android:text="@string/Main.dairy"
+            android:onClick="onDairy"
             />
 
 
