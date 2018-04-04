@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     tools:layout_editor_absoluteY="81dp">
 
-
-
-
     <fragment
         android:id="@+id/fragment"
         android:name="com.example.pelvicfloortraining.DagbogMenu"
