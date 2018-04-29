@@ -20,7 +20,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void onTraining(View view) {
-        Intent intent = new Intent (this, Training.class);
+        Intent intent = new Intent (this, Bluetooth.class);
         startActivity(intent);
     }
 

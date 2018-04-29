@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.pelvicfloortraining.Bluetooth"
+    tools:layout_editor_absoluteY="81dp">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/Recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="375dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="35dp"
+        android:layout_marginEnd="61dp"
+        android:onClick="Onconnect"
+        android:text="@string/Connect"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintVertical_bias="0.513" />
+
+
+    <Button
+        android:id="@+id/scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button"
+        android:layout_marginEnd="61dp"
+        android:layout_toStartOf="@+id/button"
+        android:onClick="On_Scan"
+        android:text="@string/Scan"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintHorizontal_bias="0.794"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.504" />
+
+</RelativeLayout>
