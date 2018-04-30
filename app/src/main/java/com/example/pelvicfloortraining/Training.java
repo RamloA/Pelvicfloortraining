@@ -1,6 +1,8 @@
 package com.example.pelvicfloortraining;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +28,22 @@ public class Training extends AppCompatActivity {
     final List<Bean> beans = new ArrayList<>();
     private static final String TAG = "Training";
     Bean myBean;
-    Button bt2;
+    Button Connnectbtn;
+    private Button startButton;
+    private Button pauseButton;
+    private Button stopButton;
+    private TextView timevalue;
+    private long startTime = 0L;
+
+    long timeInMilliseconds = 0L; //SystemClock.uptimeMillis() - startTime;
+
+
+    long timeSwapBuff = 0L;
+
+    long updatedTime = 0L;
+    private Handler customHandler = new Handler();
+
+
     BeanDiscoveryListener listener = new BeanDiscoveryListener() {
         @Override
         public void onBeanDiscovered(Bean bean, int rssi) {
@@ -66,7 +83,9 @@ public class Training extends AppCompatActivity {
                     System.out.println(deviceInfo.softwareVersion());
                 }
             });
-            bt2.setVisibility(View.GONE);
+            Connnectbtn.setVisibility(View.GONE);
+            startButton.setVisibility(View.VISIBLE);
+            pauseButton.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -83,7 +102,6 @@ public class Training extends AppCompatActivity {
 
         @Override
         public void onDisconnected() {
-            //myBean.disconnect();
             Context context = getApplicationContext();
             CharSequence text = "Disconnected to Bean!";
             int duration = Toast.LENGTH_SHORT;
@@ -104,7 +122,7 @@ public class Training extends AppCompatActivity {
         public void onReadRemoteRssi(int rssi) {
             Context context = getApplicationContext();
             int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, "Signal Strength "+ rssi, duration);
+            Toast toast = Toast.makeText(context, "Signal Strength " + rssi, duration);
             toast.show();
         }
 
@@ -126,23 +144,28 @@ public class Training extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
         getIncomingIntent();
-        bt2=findViewById(R.id.bt2);
-        bt2.setVisibility(View.VISIBLE);
+        Connnectbtn = findViewById(R.id.Connectbtn);
+        Connnectbtn.setVisibility(View.VISIBLE);
+        startButton = findViewById(R.id.Startbtn);
+        pauseButton = findViewById(R.id.Pausebtn);
+        stopButton = findViewById(R.id.Stopbtn);
+        timevalue = findViewById(R.id.timevalue);
     }
 
-    private void  getIncomingIntent(){
+    private void getIncomingIntent() {
         Log.d(TAG, "getIncomingIntent: Checking incoming intent");
-        if(getIntent().hasExtra("Bean_address")) {
+        if (getIntent().hasExtra("Bean_address")) {
             Log.d(TAG, "getIncomingIntent: found Intent");
             Bean_add = getIntent().getStringExtra("Bean_address");
         }
     }
-    private void Connect_Bean(String Bean_Add){
+
+    private void Connect_Bean(String Bean_Add) {
         Log.d(TAG, "Connect_Bean: Connecting to bean");
-        for (int i=0; i<beans.size();i++){
-            if(beans.get(i).getDevice().getAddress().equals(Bean_Add)){
+        for (int i = 0; i < beans.size(); i++) {
+            if (beans.get(i).getDevice().getAddress().equals(Bean_Add)) {
                 Log.d(TAG, "Connect_Bean: connecting");
-                myBean=beans.get(i);
+                myBean = beans.get(i);
                 Log.d(TAG, String.valueOf(beans.get(i)));
                 myBean.connect(this, beanListener);
                 BeanManager.getInstance().cancelDiscovery();
@@ -158,8 +181,8 @@ public class Training extends AppCompatActivity {
     }
 
     public void On_connect(View view) {
-        Log.d(TAG,"connect: button pushed");
-       Connect_Bean(Bean_add);
+        Log.d(TAG, "connect: button pushed");
+        Connect_Bean(Bean_add);
     }
 
     @Override
@@ -178,6 +201,47 @@ public class Training extends AppCompatActivity {
         myBean.disconnect();
     }
 
+    public void OnStart_Btn(View view) {
+        startTime = SystemClock.uptimeMillis();
+        customHandler.postDelayed(updateTimerThread, 0);
+        startButton.setVisibility(View.GONE);
+        stopButton.setVisibility(View.VISIBLE);
+    }
+
+    public void OnPause_Btn(View view) {
+        timeSwapBuff += timeInMilliseconds;
+        customHandler.removeCallbacks(updateTimerThread);
+        stopButton.setVisibility(View.GONE);
+        startButton.setVisibility(View.VISIBLE);
+    }
+
+    private Runnable updateTimerThread = new Runnable() {
+        public void run() {
+            timeInMilliseconds = 0L;//SystemClock.uptimeMillis() - startTime;
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+
+            int secs = (int) (updatedTime / 1000);
+            int mins = secs / 60;
+            secs = secs % 60;
+            int milliseconds = (int) (updatedTime % 1000);
+            timevalue.setText("" + mins + ":"
+                    + String.format("%02d", secs) + ":"
+                    + String.format("%03d", milliseconds));
+            customHandler.postDelayed(this, 0);
+        }
+    };
+
+    public void Onstop_btn (View view){
+        timeSwapBuff = 0L;
+        customHandler.removeCallbacks(updateTimerThread);
+        timevalue.setText("" + 0 + ":"
+                + String.format("%02d", 0) + ":"
+                + String.format("%03d", 0));
+        stopButton.setVisibility(View.GONE);
+        startButton.setVisibility(View.VISIBLE);
+
+    }
 }
 
 

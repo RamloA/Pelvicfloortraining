@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,22 +8,95 @@
     tools:context="com.example.pelvicfloortraining.Training">
 
     <Button
-        android:id="@+id/bt2"
+        android:id="@+id/Connectbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="17dp"
-        android:layout_marginEnd="155dp"
-        android:layout_marginStart="165dp"
-        android:layout_marginTop="446dp"
         android:onClick="On_connect"
         android:text="@string/Connect"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:visibility="invisible"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/timevalue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/timerVal"
+        android:textSize="40sp"
+        android:layout_centerHorizontal="true"
+
         />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/Startbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/Connectbtn"
+        android:layout_toStartOf="@+id/Connectbtn"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:text="@string/StartButtonLabel"
+        android:visibility="invisible"
+        android:onClick="OnStart_Btn"/>
+
+    <Button
+        android:id="@+id/Pausebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/Connectbtn"
+        android:layout_alignBottom="@+id/Connectbtn"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/Startbtn"
+        android:text="@string/PauseButtonLabel"
+        android:visibility="invisible"
+        android:onClick="OnPause_Btn"/>
+
+    <Button
+        android:id="@+id/Stopbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Startbtn"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/Startbtn"
+        android:layout_toLeftOf="@id/Pausebtn"
+        android:visibility="invisible"
+        android:text="@string/StopButtonLabel"
+        android:onClick="Onstop_btn"/>
+
+    <TextView
+        android:id="@+id/Currentpressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/Startbtn"
+        android:layout_below="@+id/timevalue"
+        android:layout_marginTop="133dp"
+        android:layout_centerHorizontal="true"
+        android:text=""
+        android:hint="@string/CurrentPressure"
+        android:layout_marginStart="15dp"/>
+
+    <TextView
+        android:id="@+id/Maxpressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/Currentpressure"
+        android:layout_alignBottom="@+id/Currentpressure"
+        android:layout_alignEnd="@+id/timevalue"
+        android:layout_toEndOf="@+id/Currentpressure"
+        android:hint="@string/Maxpressure"
+        android:layout_marginStart="20dp"
+        android:text="" />
+
+</RelativeLayout>
