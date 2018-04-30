@@ -5,8 +5,8 @@
     <string name="Dagbog.menu.Vandladning">Vandladning</string>
     <string name="Dagbog.menu.væske">indtaget Væske </string>
     <string name="Main.dairy">Dairy </string>
-    <string name="Bluethooth">Connect to Bluetooth</string>
     <string name="Connect">Connect</string>
     <string name="Scan">Scan</string>
+    <string name="Tittle.Bluetooth">Bluetooth Devices</string>
 
 </resources>

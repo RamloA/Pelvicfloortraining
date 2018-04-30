@@ -1,11 +1,12 @@
 package com.example.pelvicfloortraining;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.punchthrough.bean.sdk.Bean;
@@ -25,7 +26,7 @@ public class Training extends AppCompatActivity {
     final List<Bean> beans = new ArrayList<>();
     private static final String TAG = "Training";
     Bean myBean;
-
+    Button bt2;
     BeanDiscoveryListener listener = new BeanDiscoveryListener() {
         @Override
         public void onBeanDiscovered(Bean bean, int rssi) {
@@ -65,12 +66,12 @@ public class Training extends AppCompatActivity {
                     System.out.println(deviceInfo.softwareVersion());
                 }
             });
+            bt2.setVisibility(View.GONE);
         }
 
         @Override
         public void onConnectionFailed() {
             if (!myBean.isConnected()) {
-                System.out.println("Could not connect to Bean!");
                 Context context = getApplicationContext();
                 CharSequence text = "Could not connect to Bean!";
                 int duration = Toast.LENGTH_LONG;
@@ -82,7 +83,7 @@ public class Training extends AppCompatActivity {
 
         @Override
         public void onDisconnected() {
-            myBean.disconnect();
+            //myBean.disconnect();
             Context context = getApplicationContext();
             CharSequence text = "Disconnected to Bean!";
             int duration = Toast.LENGTH_SHORT;
@@ -92,16 +93,18 @@ public class Training extends AppCompatActivity {
 
         @Override
         public void onError(BeanError error) {
-
+            Context context = getApplicationContext();
+            CharSequence text = "Bean Error";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         }
 
         @Override
         public void onReadRemoteRssi(int rssi) {
             Context context = getApplicationContext();
-            int SS= myBean.getDevice().getBondState();
-            //CharSequence text = "SS";
             int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, SS, duration);
+            Toast toast = Toast.makeText(context, "Signal Strength "+ rssi, duration);
             toast.show();
         }
 
@@ -123,7 +126,8 @@ public class Training extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
         getIncomingIntent();
-
+        bt2=findViewById(R.id.bt2);
+        bt2.setVisibility(View.VISIBLE);
     }
 
     private void  getIncomingIntent(){
@@ -141,9 +145,9 @@ public class Training extends AppCompatActivity {
                 myBean=beans.get(i);
                 Log.d(TAG, String.valueOf(beans.get(i)));
                 myBean.connect(this, beanListener);
+                BeanManager.getInstance().cancelDiscovery();
             }
-            }
-
+        }
     }
 
     @Override
@@ -153,15 +157,9 @@ public class Training extends AppCompatActivity {
         BeanManager.getInstance().startDiscovery(listener);
     }
 
-    public void On_connect1(View view) {
-        for (int i=0; i<beans.size();i++) {
-            if (beans.get(i).getDevice().getAddress().equals(Bean_add)) {
-                Log.d(TAG, "Connect_Bean: connecting");
-                myBean = beans.get(i);
-                Log.d(TAG, String.valueOf(beans.get(i)));
-                myBean.connect(this, beanListener);
-            }
-        }
+    public void On_connect(View view) {
+        Log.d(TAG,"connect: button pushed");
+       Connect_Bean(Bean_add);
     }
 
     @Override
@@ -174,13 +172,11 @@ public class Training extends AppCompatActivity {
         super.onResume();
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         myBean.disconnect();
     }
-
 
 }
 

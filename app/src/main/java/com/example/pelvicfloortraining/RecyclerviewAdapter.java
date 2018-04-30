@@ -15,12 +15,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
+
 public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapter.ViewHolder>{
     private static final String TAG = "RecyclerviewAdapter";
 
     private ArrayList<String> mBeanAddress =new ArrayList<>();
     private ArrayList<String> mBean_SS = new ArrayList<>();
     private Context mContext;
+
 
     public RecyclerviewAdapter(Context mContext, ArrayList<String> mBeanAddress, ArrayList<String> mBean_SS) {
         this.mBeanAddress = mBeanAddress;
@@ -46,11 +48,9 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked on:"+mBeanAddress.get(position));
                 Toast.makeText(mContext, mBeanAddress.get(position), Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(mContext, Training.class);
                 intent.putExtra("Bean_address", mBeanAddress.get(position));
                 mContext.startActivity(intent);
-
             }
         });
     }

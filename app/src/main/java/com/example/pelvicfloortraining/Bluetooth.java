@@ -2,7 +2,7 @@ package com.example.pelvicfloortraining;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,17 +16,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.punchthrough.bean.sdk.Bean;
 import com.punchthrough.bean.sdk.BeanDiscoveryListener;
-import com.punchthrough.bean.sdk.BeanListener;
 import com.punchthrough.bean.sdk.BeanManager;
-import com.punchthrough.bean.sdk.message.BeanError;
-import com.punchthrough.bean.sdk.message.Callback;
-import com.punchthrough.bean.sdk.message.DeviceInfo;
-import com.punchthrough.bean.sdk.message.ScratchBank;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +27,6 @@ import java.util.List;
 public class Bluetooth extends AppCompatActivity {
     final List<Bean> beans = new ArrayList<>();
     LocationManager locationManager;
-
-    //Bean beaN = beans[0];
-
-    String Name = "98:7B:F3:5A:CE:D9";
-
-    Bean myBean;
 
     private ArrayList<String> mBeanAdd = new ArrayList<>();
     private ArrayList<String> mBeanSS = new ArrayList<>();
@@ -181,80 +168,27 @@ public class Bluetooth extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    BeanListener beanListener = new BeanListener() {
-
-        @Override
-        public void onConnected() {
-            //System.out.println("connected to Bean!");
-            Context context = getApplicationContext();
-            CharSequence text = "connected to Bean!";
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-            myBean.readDeviceInfo(new Callback<DeviceInfo>() {
-                @Override
-                public void onResult(DeviceInfo deviceInfo) {
-                    System.out.println(deviceInfo.hardwareVersion());
-                    System.out.println(deviceInfo.firmwareVersion());
-                    System.out.println(deviceInfo.softwareVersion());
-                }
-            });
-        }
-
-        @Override
-        public void onConnectionFailed() {
-            if (!myBean.isConnected()) {
-                System.out.println("Could not connect to Bean!");
-                Context context = getApplicationContext();
-                CharSequence text = "Could not connect to Bean!";
-                int duration = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-
-        }
-
-        @Override
-        public void onDisconnected() {
-            myBean.disconnect();
-            Context context = getApplicationContext();
-            CharSequence text = "Disconnected to Bean!";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        }
-
-        @Override
-        public void onError(BeanError error) {
-
-        }
-
-        @Override
-        public void onReadRemoteRssi(int rssi) {
-            Context context = getApplicationContext();
-            int SS= myBean.getDevice().getBondState();
-            //CharSequence text = "SS";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, SS, duration);
-            toast.show();
-        }
-
-        @Override
-        public void onScratchValueChanged(ScratchBank bank, byte[] value) {
-
-        }
-
-        @Override
-        public void onSerialMessageReceived(byte[] data) {
-
-        }
-
-    };
-
     public void On_Scan(View view) {
         initBeans();
+        BeanManager.getInstance().cancelDiscovery();
     }
-    public void Onconnect(View view) {
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
