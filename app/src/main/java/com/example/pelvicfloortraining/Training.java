@@ -15,16 +15,25 @@ import com.punchthrough.bean.sdk.Bean;
 import com.punchthrough.bean.sdk.BeanDiscoveryListener;
 import com.punchthrough.bean.sdk.BeanListener;
 import com.punchthrough.bean.sdk.BeanManager;
+import com.punchthrough.bean.sdk.internal.BeanMessageID;
+import com.punchthrough.bean.sdk.internal.ble.GattClient;
+import com.punchthrough.bean.sdk.internal.serial.GattSerialTransportProfile;
 import com.punchthrough.bean.sdk.message.BeanError;
 import com.punchthrough.bean.sdk.message.Callback;
 import com.punchthrough.bean.sdk.message.DeviceInfo;
 import com.punchthrough.bean.sdk.message.ScratchBank;
 
+import org.apache.commons.codec.binary.Hex;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import okio.Buffer;
+import static com.punchthrough.bean.sdk.internal.Protocol.APP_MSG_RESPONSE_BIT;
+
 
 public class Training extends AppCompatActivity {
+
     final List<Bean> beans = new ArrayList<>();
     private static final String TAG = "Training";
     Bean myBean;
@@ -34,6 +43,7 @@ public class Training extends AppCompatActivity {
     private Button stopButton;
     private TextView timevalue;
     private long startTime = 0L;
+    private TextView Currentpressure;
 
     long timeInMilliseconds = 0L; //SystemClock.uptimeMillis() - startTime;
 
@@ -65,7 +75,6 @@ public class Training extends AppCompatActivity {
         }
     };
     BeanListener beanListener = new BeanListener() {
-
         @Override
         public void onConnected() {
 
@@ -133,7 +142,23 @@ public class Training extends AppCompatActivity {
 
         @Override
         public void onSerialMessageReceived(byte[] data) {
-
+            Log.d(TAG, "onSerialMessageReceived >> " + myBean.describe());
+            char[] chars = Hex.encodeHex(data);
+            Log.d(TAG, "data: " + String.valueOf(chars));
+            int size = data.length;
+            Log.d(TAG, "number of bytes: " + size);
+            Log.d(TAG, "byte 1 (should be 82):" + Integer.toHexString(data[0] & 0xFF));
+            byte digitalPins = data[1];
+            String s1 = String.format("%8s", Integer.toBinaryString(digitalPins & 0xFF)).replace(' ', '0');
+            Log.d(TAG, "byte 2  Pins[xx543210]:" + s1);
+            byte a1L = data[2];
+            byte a1H = data[3];
+            byte a2L = data[4];
+            byte a2H = data[5];
+            int a1 = a1H * 256 + a1L;
+            int a2 = a2H * 256 + a2L;
+            Log.d(TAG, "A1 values:" + a1);
+            Log.d(TAG, "A2 values:" + a2);
         }
 
     };
@@ -150,6 +175,7 @@ public class Training extends AppCompatActivity {
         pauseButton = findViewById(R.id.Pausebtn);
         stopButton = findViewById(R.id.Stopbtn);
         timevalue = findViewById(R.id.timevalue);
+        Currentpressure = findViewById(R.id.Currentpressure);
     }
 
     private void getIncomingIntent() {
@@ -217,9 +243,18 @@ public class Training extends AppCompatActivity {
 
     private Runnable updateTimerThread = new Runnable() {
         public void run() {
+            final String TAG="BEAN";
+            final String BeanInfo=myBean.describe();
+            byte requestCode=0x02;
+            byte[] requestMsg= {requestCode};
+            int secsold=0;
+            myBean.sendSerialMessage(requestMsg);
+
             timeInMilliseconds = 0L;//SystemClock.uptimeMillis() - startTime;
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+
             updatedTime = timeSwapBuff + timeInMilliseconds;
+
 
             int secs = (int) (updatedTime / 1000);
             int mins = secs / 60;
@@ -229,10 +264,16 @@ public class Training extends AppCompatActivity {
                     + String.format("%02d", secs) + ":"
                     + String.format("%03d", milliseconds));
             customHandler.postDelayed(this, 0);
+
+            if(secs!=secsold){
+                myBean.sendSerialMessage(requestMsg);
+
+            }
+            secsold=secs;
         }
     };
 
-    public void Onstop_btn (View view){
+    public void Onstop_btn(View view) {
         timeSwapBuff = 0L;
         customHandler.removeCallbacks(updateTimerThread);
         timevalue.setText("" + 0 + ":"
@@ -242,8 +283,8 @@ public class Training extends AppCompatActivity {
         startButton.setVisibility(View.VISIBLE);
 
     }
-}
 
+}
 
 
 

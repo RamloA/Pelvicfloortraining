@@ -79,13 +79,12 @@
         android:id="@+id/Currentpressure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/Startbtn"
+        android:layout_alignStart="@+id/timevalue"
         android:layout_below="@+id/timevalue"
+        android:layout_marginStart="13dp"
         android:layout_marginTop="133dp"
-        android:layout_centerHorizontal="true"
-        android:text=""
         android:hint="@string/CurrentPressure"
-        android:layout_marginStart="15dp"/>
+        android:text="" />
 
     <TextView
         android:id="@+id/Maxpressure"
@@ -96,7 +95,8 @@
         android:layout_alignEnd="@+id/timevalue"
         android:layout_toEndOf="@+id/Currentpressure"
         android:hint="@string/Maxpressure"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="25dp"
+        android:layout_centerHorizontal="true"
         android:text="" />
 
 </RelativeLayout>

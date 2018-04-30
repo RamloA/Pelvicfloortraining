@@ -176,6 +176,8 @@ public class Bluetooth extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        BeanManager.getInstance().setScanTimeout(50);
+        BeanManager.getInstance().startDiscovery();
     }
 
     @Override
