@@ -265,11 +265,7 @@ public class Training extends AppCompatActivity {
                     + String.format("%03d", milliseconds));
             customHandler.postDelayed(this, 0);
 
-            if(secs!=secsold){
-                myBean.sendSerialMessage(requestMsg);
 
-            }
-            secsold=secs;
         }
     };
 

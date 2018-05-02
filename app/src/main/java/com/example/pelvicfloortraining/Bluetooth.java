@@ -135,7 +135,6 @@ public class Bluetooth extends AppCompatActivity {
         @Override
         public void onDiscoveryComplete() {
             // This is called when the scan times out, defined by the .setScanTimeout(int seconds) method
-
             for (Bean bean : beans) {
                 Log.d("Bluetooth", String.valueOf(bean.getDevice().getName()));
                 //System.out.println(bean.getDevice().getName());   // "Bean"              (example)
@@ -143,6 +142,7 @@ public class Bluetooth extends AppCompatActivity {
                 // System.out.println(bean.getDevice().getAddress());    // "B4:99:4C:1E:BC:75" (example);
             }
         }
+
     };
 
     private void initBeans(){
@@ -170,7 +170,6 @@ public class Bluetooth extends AppCompatActivity {
 
     public void On_Scan(View view) {
         initBeans();
-        BeanManager.getInstance().cancelDiscovery();
     }
 
     @Override

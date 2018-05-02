@@ -14,6 +14,10 @@
     <string name="timerVal">00:00:00</string>
     <string name="CurrentPressure"> Current pressure </string>
     <string name="Maxpressure"> Max pressure </string>
+    <string name="Workout"> Workout</string>
+    <string name="Waterlevel">Water Level</string>
+    <string name="Open">Open</string>
+    <string name="Close">Close</string>
 
 
 </resources>
