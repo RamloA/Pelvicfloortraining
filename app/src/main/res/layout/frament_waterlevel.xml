@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="15dp"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.pelvicfloortraining.Waterfragment">
+   tools:context="com.example.pelvicfloortraining.Waterfragment">
 
-        <!-- TODO: Update blank fragment layout -->
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/graph_water_level"/>
 
-        <com.jjoe64.graphview.GraphViewframent_workout.xml
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/graph_water_level"/>
 </RelativeLayout>
