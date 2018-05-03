@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-import com.jjoe64.graphview.series.PointsGraphSeries;
 
 
 public class dagbog extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -73,7 +72,7 @@ public class dagbog extends AppCompatActivity implements NavigationView.OnNaviga
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.fragment_container,fragment);
             transaction.commit();
-            graph(i);
+            //graph(i);
         }
 
 
@@ -81,6 +80,7 @@ public class dagbog extends AppCompatActivity implements NavigationView.OnNaviga
 
         return true;
     }
+
     private void graph(int i){
         double y, x;
         GraphView graph=null;

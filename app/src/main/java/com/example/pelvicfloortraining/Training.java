@@ -15,9 +15,6 @@ import com.punchthrough.bean.sdk.Bean;
 import com.punchthrough.bean.sdk.BeanDiscoveryListener;
 import com.punchthrough.bean.sdk.BeanListener;
 import com.punchthrough.bean.sdk.BeanManager;
-import com.punchthrough.bean.sdk.internal.BeanMessageID;
-import com.punchthrough.bean.sdk.internal.ble.GattClient;
-import com.punchthrough.bean.sdk.internal.serial.GattSerialTransportProfile;
 import com.punchthrough.bean.sdk.message.BeanError;
 import com.punchthrough.bean.sdk.message.Callback;
 import com.punchthrough.bean.sdk.message.DeviceInfo;
@@ -27,9 +24,6 @@ import org.apache.commons.codec.binary.Hex;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import okio.Buffer;
-import static com.punchthrough.bean.sdk.internal.Protocol.APP_MSG_RESPONSE_BIT;
 
 
 public class Training extends AppCompatActivity {
@@ -46,6 +40,9 @@ public class Training extends AppCompatActivity {
     private TextView Currentpressure;
 
     long timeInMilliseconds = 0L; //SystemClock.uptimeMillis() - startTime;
+
+   TrainingLog log= new TrainingLog();
+
 
 
     long timeSwapBuff = 0L;

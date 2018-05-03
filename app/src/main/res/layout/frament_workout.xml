@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="15dp"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.pelvicfloortraining.Workoutfragment">
@@ -10,6 +11,9 @@
     <com.jjoe64.graphview.GraphView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/graph_workout"/>
+        android:id="@+id/graph_workout"
+        app:seriesData="0=5;2=5;3=0;4=2"
+        app:seriesType="line"
+        app:seriesColor="#ee0000"/>
 
 </RelativeLayout>
