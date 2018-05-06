@@ -1,5 +1,6 @@
 package com.example.pelvicfloortraining;
 
+import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,6 +12,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.TextView;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -20,7 +23,8 @@ public class dagbog extends AppCompatActivity implements NavigationView.OnNaviga
     private DrawerLayout mdrawLayout;
     private ActionBarDrawerToggle mtoggle;
     LineGraphSeries<DataPoint> series;
-
+    TextView Insert,Insert2;
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,15 @@ public class dagbog extends AppCompatActivity implements NavigationView.OnNaviga
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //
         NavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected); // will check all the items
+       // AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
+         //       .allowMainThreadQueries()
+           //     .build();
+        //Insert = findViewById(R.id.Insert);
+         //date=db.trainingDao().getLog().getDato();
+        if (savedInstanceState==null){
+           // Insert.setText(date);
+
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.pelvicfloortraining;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -38,6 +39,7 @@ public class Training extends AppCompatActivity {
     private TextView timevalue;
     private long startTime = 0L;
     private TextView Currentpressure;
+    private TextView Maxpressure;
 
     long timeInMilliseconds = 0L; //SystemClock.uptimeMillis() - startTime;
 
@@ -160,6 +162,10 @@ public class Training extends AppCompatActivity {
 
     };
     String Bean_add;
+    AppDatabase db;
+    String hey, ba;
+    int max=100;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,8 +179,12 @@ public class Training extends AppCompatActivity {
         stopButton = findViewById(R.id.Stopbtn);
         timevalue = findViewById(R.id.timevalue);
         Currentpressure = findViewById(R.id.Currentpressure);
-    }
+        Maxpressure = findViewById(R.id.Maxpressure);
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
+                .allowMainThreadQueries()
+                .build();
 
+    }
     private void getIncomingIntent() {
         Log.d(TAG, "getIncomingIntent: Checking incoming intent");
         if (getIntent().hasExtra("Bean_address")) {
@@ -261,12 +271,16 @@ public class Training extends AppCompatActivity {
                     + String.format("%02d", secs) + ":"
                     + String.format("%03d", milliseconds));
             customHandler.postDelayed(this, 0);
-
+            hey= ("" + mins + ":"
+                    + String.format("%02d", secs) + ":"
+                    + String.format("%03d", milliseconds));
 
         }
     };
 
     public void Onstop_btn(View view) {
+        TrainingLog trainingLog= new TrainingLog(timevalue.getText().toString(),Currentpressure.getText().toString(), Maxpressure.getText().toString());
+        db.trainingDao().insert(trainingLog);
         timeSwapBuff = 0L;
         customHandler.removeCallbacks(updateTimerThread);
         timevalue.setText("" + 0 + ":"

@@ -3,13 +3,13 @@ package com.example.pelvicfloortraining;
 import android.arch.persistence.room.Entity;
 
 import android.arch.persistence.room.PrimaryKey;
-
+import android.support.annotation.NonNull;
 
 
 @Entity
 public class TrainingLog {
 
-    public TrainingLog(String dato, String type, int max) {
+    public TrainingLog(String dato, String type, String max) {
         this.dato = dato;
         this.type = type;
         this.max = max;
@@ -18,27 +18,27 @@ public class TrainingLog {
     public TrainingLog(){
         dato="";
         type="";
-        max=0;
+        max="";
     }
-    @PrimaryKey
-    private int id;
+    @PrimaryKey @NonNull
+    //private int id;
     private String dato;
     private String type;
-    private int max;
+    private String max;
 
-    public int getId() {
+    /*public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
+    }*/
 
     public String getDato() {
         return dato;
     }
 
-    public void setDato(String dato) {
+    public void setDato(String date) {
         this.dato = dato;
     }
 
@@ -50,11 +50,11 @@ public class TrainingLog {
         type = type;
     }
 
-    public int getMax() {
+    public String getMax() {
         return max;
     }
 
-    public void setMax(int max) {
+    public void setMax(String max) {
         this.max = max;
     }
 }
