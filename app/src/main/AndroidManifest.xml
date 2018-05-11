@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.pelvicfloortraining">
 
-
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="false" />
@@ -11,8 +10,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <uses-permission android:name="android.permission.SET_DEBUG_APP"/>
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
 
     <application
         android:allowBackup="true"
@@ -30,8 +28,8 @@
         </activity>
         <activity android:name=".dagbog" />
         <activity android:name=".Training" />
-        <activity android:name=".Bluetooth">
-        </activity>
+        <activity android:name=".Bluetooth"></activity>
+        <activity android:name=".Add_waterinfo"></activity>
     </application>
 
 </manifest>

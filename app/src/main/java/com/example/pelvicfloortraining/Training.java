@@ -141,7 +141,7 @@ public class Training extends AppCompatActivity {
 
         @Override
         public void onSerialMessageReceived(byte[] data) {
-           /* Log.d(TAG, "onSerialMessageReceived >> " + myBean.describe());
+            Log.d(TAG, "onSerialMessageReceived >> " + myBean.describe());
             char[] chars = Hex.encodeHex(data);
             Log.d(TAG, "data: " + String.valueOf(chars));
             int size = data.length;
@@ -157,7 +157,7 @@ public class Training extends AppCompatActivity {
             int a1 = a1H * 256 + a1L;
             int a2 = a2H * 256 + a2L;
             Log.d(TAG, "A1 values:" + a1);
-            Log.d(TAG, "A2 values:" + a2);*/
+            Log.d(TAG, "A2 values:" + a2);
         }
 
     };
@@ -181,9 +181,9 @@ public class Training extends AppCompatActivity {
         timevalue = findViewById(R.id.timevalue);
         Currentpressure = findViewById(R.id.Currentpressure);
         Maxpressure = findViewById(R.id.Maxpressure);
-        //db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
-          //      .allowMainThreadQueries()
-            //    .build();
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
+                .allowMainThreadQueries()
+                .build();
 
     }
     private void getIncomingIntent() {
@@ -234,8 +234,7 @@ public class Training extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //myBean.disconnect();
-       // BeanManager.getInstance().forgetBeans();
+        myBean.disconnect();
     }
 
     public void OnStart_Btn(View view) {
@@ -243,6 +242,7 @@ public class Training extends AppCompatActivity {
         customHandler.postDelayed(updateTimerThread, 0);
         startButton.setVisibility(View.GONE);
         stopButton.setVisibility(View.VISIBLE);
+
     }
 
     public void OnPause_Btn(View view) {
@@ -256,10 +256,10 @@ public class Training extends AppCompatActivity {
         public void run() {
             final String TAG="BEAN";
             final String BeanInfo=myBean.describe();
-            //byte requestCode=0x02;
-            //byte[] requestMsg= {requestCode};
+            byte requestCode=0x02;
+            byte[] requestMsg= {requestCode};
 
-           // myBean.sendSerialMessage(requestMsg);
+            myBean.sendSerialMessage(requestMsg);
 
             timeInMilliseconds = 0L;//SystemClock.uptimeMillis() - startTime;
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
@@ -275,6 +275,7 @@ public class Training extends AppCompatActivity {
                     + String.format("%02d", secs) + ":"
                     + String.format("%03d", milliseconds));
             customHandler.postDelayed(this, 0);
+
         }
     };
 

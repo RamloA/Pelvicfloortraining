@@ -1,8 +1,10 @@
 package com.example.pelvicfloortraining;
 
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +14,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -25,6 +29,7 @@ public class dagbog extends AppCompatActivity implements NavigationView.OnNaviga
     LineGraphSeries<DataPoint> series;
     TextView Insert,Insert2;
     String date;
+    Button fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,15 +41,11 @@ public class dagbog extends AppCompatActivity implements NavigationView.OnNaviga
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //
         NavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected); // will check all the items
-       // AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
-         //       .allowMainThreadQueries()
-           //     .build();
-        //Insert = findViewById(R.id.Insert);
-         //date=db.trainingDao().getLog().getDato();
-       // if (savedInstanceState==null){
-           // Insert.setText(date);
-
-        //}
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
+               .allowMainThreadQueries()
+                .build();
+        Insert = findViewById(R.id.Insert);
+        fab=findViewById(R.id.myFAB);
     }
 
     @Override
@@ -102,7 +103,7 @@ public class dagbog extends AppCompatActivity implements NavigationView.OnNaviga
             graph = findViewById(R.id.graph_workout);
         }
         else if (i==2){
-            graph = findViewById(R.id.graph_water_level);
+            // graph = findViewById(R.id.graph_water_level);
         }
         series = new LineGraphSeries<>();
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
@@ -121,6 +122,11 @@ public class dagbog extends AppCompatActivity implements NavigationView.OnNaviga
             graph.addSeries(series);
 
         }
+    }
+
+    public void add_water (View View){
+        Intent intent = new Intent(dagbog.this, Add_waterinfo.class);
+        startActivity(intent);
     }
 }
 
