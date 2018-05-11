@@ -12,13 +12,9 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-/**
- * Created by Ramlo on 02/05/2018.
- */
-
 public class Workoutfragment extends Fragment {
     LineGraphSeries<DataPoint> series;
-    public static View view;
+    public  View view;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -29,7 +25,7 @@ public class Workoutfragment extends Fragment {
 
     private void graph(){
         double y, x;
-        GraphView graph=null;
+        GraphView graph;
         x=-4.0;
         graph = view.findViewById(R.id.graph_workout);
         series = new LineGraphSeries<>();

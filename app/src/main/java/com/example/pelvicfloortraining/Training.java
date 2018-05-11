@@ -200,7 +200,7 @@ public class Training extends AppCompatActivity {
         for (int i = 0; i < beans.size(); i++) {
             if (beans.get(i).getDevice().getAddress().equals(Bean_Add)) {
                 Log.d(TAG, "Connect_Bean: connecting");
-                Toast.makeText(this, "Found"+Bean_Add, Toast.LENGTH_LONG);
+                Toast.makeText(this, "Found"+Bean_Add, Toast.LENGTH_LONG).show();
                 myBean = beans.get(i);
                 Log.d(TAG, String.valueOf(beans.get(i)));
                 myBean.connect(this, beanListener);

@@ -1,6 +1,5 @@
 package com.example.pelvicfloortraining;
 
-import android.app.DatePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +14,7 @@ public class Add_waterinfo extends AppCompatActivity {
     DatePicker datePicker;
     TimePicker timePicker;
     EditText fluid, urination, leakage;
-    int i=0;
+    int i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +30,7 @@ public class Add_waterinfo extends AppCompatActivity {
         fluid = findViewById(R.id.fluidintake);
         urination = findViewById(R.id.urination_amount);
         leakage = findViewById(R.id.ifleakge);
+        i=0;
     }
 
     public void onNext(View view) {

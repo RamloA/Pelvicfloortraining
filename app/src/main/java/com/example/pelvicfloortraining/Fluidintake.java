@@ -3,9 +3,6 @@ package com.example.pelvicfloortraining;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-/**
- * Created by Ramlo on 12/05/2018.
- */
 
 @Entity
 public class Fluidintake {

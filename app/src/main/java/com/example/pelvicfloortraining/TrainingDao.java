@@ -5,9 +5,6 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-/**
- * Created by Ramlo on 02/05/2018.
- */
 
 @Dao
 public interface TrainingDao {

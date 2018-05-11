@@ -12,9 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Ramlo on 11/05/2018.
- */
+
 
 public class RecyclerviewAdapter_Water extends RecyclerView.Adapter<RecyclerviewAdapter_Water.ViewHolder>{
     private static final String TAG = "RecyclerviewAdapter_Water";
@@ -37,7 +35,7 @@ public class RecyclerviewAdapter_Water extends RecyclerView.Adapter<Recyclerview
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: called.");
+        Log.d(TAG, "OBViewHolder:called");
         holder.date.setText(mDate.get(position));
         holder.waterlayout.setOnClickListener(new View.OnClickListener() {
             @Override

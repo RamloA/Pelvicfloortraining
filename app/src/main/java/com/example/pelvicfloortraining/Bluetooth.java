@@ -1,9 +1,7 @@
 package com.example.pelvicfloortraining;
 
 import android.Manifest;
-import android.arch.persistence.room.Room;
 import android.bluetooth.BluetoothAdapter;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;

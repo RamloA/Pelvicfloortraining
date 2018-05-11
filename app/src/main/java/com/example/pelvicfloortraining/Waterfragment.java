@@ -12,13 +12,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-/**
- * Created by Ramlo on 02/05/2018.
- */
-
 public class Waterfragment extends Fragment {
     ArrayList<String> mDate  = new ArrayList<>();
-    public static View view;
+    public  View view;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

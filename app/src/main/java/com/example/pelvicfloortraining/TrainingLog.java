@@ -21,7 +21,7 @@ public class TrainingLog {
         max="";
     }
 
-    @PrimaryKey(autoGenerate = true) @NonNull
+    @PrimaryKey @NonNull
     //private int id;
     private String dato;
     private String type;
@@ -35,7 +35,7 @@ public class TrainingLog {
         this.id = id;
     }*/
 
-    public String getDato() {
+    public  String getDato() {
         return dato;
     }
 
@@ -47,8 +47,8 @@ public class TrainingLog {
         return type;
     }
 
-    public void setType(String type) {
-        type = type;
+    public void setType(String Type) {
+        type = Type;
     }
 
     public String getMax() {
