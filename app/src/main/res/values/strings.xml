@@ -15,10 +15,14 @@
     <string name="CurrentPressure"> Current pressure </string>
     <string name="Maxpressure"> Max pressure </string>
     <string name="Workout"> Workout</string>
-    <string name="Waterlevel">Water Level</string>
     <string name="Open">Open</string>
     <string name="Close">Close</string>
     <string name="Urination">Urination</string>
+    <string name="Next">Next</string>
+    <string name="name_fluidIntake">Fluid intake</string>
+    <string name="fluidIntake">Fluid intake [mL]</string>
+    <string name="Leakage">Leakage (yes/no)</string>
+    <string name="amount_urination">Urination [mL]</string>
 
 
 </resources>

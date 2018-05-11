@@ -6,7 +6,7 @@
     </item>
     <item
         android:id="@+id/Waterlevel"
-        android:title="@string/Waterlevel">
+        android:title="@string/name_fluidIntake">
     </item>
 
 </menu>

@@ -20,7 +20,8 @@ public class TrainingLog {
         type="";
         max="";
     }
-    @PrimaryKey @NonNull
+
+    @PrimaryKey(autoGenerate = true) @NonNull
     //private int id;
     private String dato;
     private String type;

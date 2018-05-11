@@ -7,4 +7,71 @@
     android:layout_height="match_parent"
     tools:context="com.example.pelvicfloortraining.Add_waterinfo">
 
+
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        />
+
+
+    <Button
+        android:id="@+id/Next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:onClick="onNext"
+        android:text="@string/Next" />
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/datePicker"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:id="@+id/fluidintake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/datePicker"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="@string/fluidIntake"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:id="@+id/urination_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/fluidintake"
+        android:layout_below="@+id/fluidintake"
+        android:layout_marginTop="62dp"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="@string/amount_urination"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:id="@+id/ifleakge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/urination_amount"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp"
+        android:ems="10"
+        android:hint="@string/Leakage"
+        android:inputType="number"
+        android:visibility="invisible" />
+
 </RelativeLayout>

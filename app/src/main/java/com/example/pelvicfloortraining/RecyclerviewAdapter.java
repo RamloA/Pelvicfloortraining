@@ -23,7 +23,6 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
     private ArrayList<String> mBean_SS = new ArrayList<>();
     private Context mContext;
 
-
     public RecyclerviewAdapter(Context mContext, ArrayList<String> mBeanAddress, ArrayList<String> mBean_SS) {
         this.mBeanAddress = mBeanAddress;
         this.mBean_SS = mBean_SS;
