@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 
 public class RecyclerviewAdapter_Water extends RecyclerView.Adapter<RecyclerviewAdapter_Water.ViewHolder>{
-    private static final String TAG = "RecyclerviewAdapter_Water";
+    private static final String TAG = "Adapter_Water";
 
     private ArrayList<String> mDate = new ArrayList<>();
     private Context mContext;
