@@ -11,7 +11,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
     }
 
     public void onDairy(View view) {
@@ -23,5 +22,4 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent (this, Bluetooth.class);
         startActivity(intent);
     }
-
 }

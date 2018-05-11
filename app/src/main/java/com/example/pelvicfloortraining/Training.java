@@ -45,8 +45,6 @@ public class Training extends AppCompatActivity {
 
    TrainingLog log= new TrainingLog();
 
-
-
     long timeSwapBuff = 0L;
 
     long updatedTime = 0L;
@@ -57,8 +55,8 @@ public class Training extends AppCompatActivity {
         @Override
         public void onBeanDiscovered(Bean bean, int rssi) {
             beans.add(bean);
-            Log.d("Bluetooth", String.valueOf(bean.getDevice().getName()));
-            Log.d("Address", String.valueOf(bean.getDevice().getAddress()));
+            Log.d("Bluetooth3", String.valueOf(bean.getDevice().getName()));
+            Log.d("Address3", String.valueOf(bean.getDevice().getAddress()));
         }
 
         @Override
@@ -66,19 +64,23 @@ public class Training extends AppCompatActivity {
             // This is called when the scan times out, defined by the .setScanTimeout(int seconds) method
 
             for (Bean bean : beans) {
-                Log.d("Bluetooth", String.valueOf(bean.getDevice().getName()));
+                Log.d("Bluetooth4", String.valueOf(bean.getDevice().getName()));
                 //System.out.println(bean.getDevice().getName());   // "Bean"              (example)
-                Log.d("Address", String.valueOf(bean.getDevice().getAddress()));
+                Log.d("Address4", String.valueOf(bean.getDevice().getAddress()));
                 // System.out.println(bean.getDevice().getAddress());    // "B4:99:4C:1E:BC:75" (example);
             }
         }
     };
+
     BeanListener beanListener = new BeanListener() {
         @Override
         public void onConnected() {
 
             System.out.println("connected to Bean!");
             Context context = getApplicationContext();
+
+            BeanManager.getInstance().cancelDiscovery();
+
             CharSequence text = "connected to Bean!";
             int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(context, text, duration);
@@ -98,14 +100,11 @@ public class Training extends AppCompatActivity {
 
         @Override
         public void onConnectionFailed() {
-            if (!myBean.isConnected()) {
                 Context context = getApplicationContext();
                 CharSequence text = "Could not connect to Bean!";
                 int duration = Toast.LENGTH_LONG;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-            }
-
         }
 
         @Override
@@ -119,10 +118,11 @@ public class Training extends AppCompatActivity {
 
         @Override
         public void onError(BeanError error) {
+            System.out.println(String.valueOf(error));
             Context context = getApplicationContext();
-            CharSequence text = "Bean Error";
+            //CharSequence text = error;
             int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, text, duration);
+            Toast toast = Toast.makeText(context, String.valueOf(error), duration);
             toast.show();
         }
 
@@ -141,7 +141,7 @@ public class Training extends AppCompatActivity {
 
         @Override
         public void onSerialMessageReceived(byte[] data) {
-            Log.d(TAG, "onSerialMessageReceived >> " + myBean.describe());
+           /* Log.d(TAG, "onSerialMessageReceived >> " + myBean.describe());
             char[] chars = Hex.encodeHex(data);
             Log.d(TAG, "data: " + String.valueOf(chars));
             int size = data.length;
@@ -157,20 +157,21 @@ public class Training extends AppCompatActivity {
             int a1 = a1H * 256 + a1L;
             int a2 = a2H * 256 + a2L;
             Log.d(TAG, "A1 values:" + a1);
-            Log.d(TAG, "A2 values:" + a2);
+            Log.d(TAG, "A2 values:" + a2);*/
         }
 
     };
     String Bean_add;
     AppDatabase db;
-    String hey, ba;
-    int max=100;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
+        BeanManager.getInstance().getBeans().addAll(beans);
+        BeanManager.getInstance().startDiscovery(listener);
+        BeanManager.getInstance().setScanTimeout(15);
         getIncomingIntent();
         Connnectbtn = findViewById(R.id.Connectbtn);
         Connnectbtn.setVisibility(View.VISIBLE);
@@ -180,9 +181,9 @@ public class Training extends AppCompatActivity {
         timevalue = findViewById(R.id.timevalue);
         Currentpressure = findViewById(R.id.Currentpressure);
         Maxpressure = findViewById(R.id.Maxpressure);
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
-                .allowMainThreadQueries()
-                .build();
+        //db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
+          //      .allowMainThreadQueries()
+            //    .build();
 
     }
     private void getIncomingIntent() {
@@ -195,13 +196,14 @@ public class Training extends AppCompatActivity {
 
     private void Connect_Bean(String Bean_Add) {
         Log.d(TAG, "Connect_Bean: Connecting to bean");
+        Log.d(TAG, "Number of beans:" + beans.size());
         for (int i = 0; i < beans.size(); i++) {
             if (beans.get(i).getDevice().getAddress().equals(Bean_Add)) {
                 Log.d(TAG, "Connect_Bean: connecting");
+                Toast.makeText(this, "Found"+Bean_Add, Toast.LENGTH_LONG);
                 myBean = beans.get(i);
                 Log.d(TAG, String.valueOf(beans.get(i)));
                 myBean.connect(this, beanListener);
-                BeanManager.getInstance().cancelDiscovery();
             }
         }
     }
@@ -209,8 +211,9 @@ public class Training extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        BeanManager.getInstance().setScanTimeout(50);
         BeanManager.getInstance().startDiscovery(listener);
+        BeanManager.getInstance().setScanTimeout(15);
+
     }
 
     public void On_connect(View view) {
@@ -231,7 +234,8 @@ public class Training extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        myBean.disconnect();
+        //myBean.disconnect();
+       // BeanManager.getInstance().forgetBeans();
     }
 
     public void OnStart_Btn(View view) {
@@ -252,10 +256,10 @@ public class Training extends AppCompatActivity {
         public void run() {
             final String TAG="BEAN";
             final String BeanInfo=myBean.describe();
-            byte requestCode=0x02;
-            byte[] requestMsg= {requestCode};
-            int secsold=0;
-            myBean.sendSerialMessage(requestMsg);
+            //byte requestCode=0x02;
+            //byte[] requestMsg= {requestCode};
+
+           // myBean.sendSerialMessage(requestMsg);
 
             timeInMilliseconds = 0L;//SystemClock.uptimeMillis() - startTime;
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
@@ -271,16 +275,12 @@ public class Training extends AppCompatActivity {
                     + String.format("%02d", secs) + ":"
                     + String.format("%03d", milliseconds));
             customHandler.postDelayed(this, 0);
-            hey= ("" + mins + ":"
-                    + String.format("%02d", secs) + ":"
-                    + String.format("%03d", milliseconds));
-
         }
     };
 
     public void Onstop_btn(View view) {
-        TrainingLog trainingLog= new TrainingLog(timevalue.getText().toString(),Currentpressure.getText().toString(), Maxpressure.getText().toString());
-        db.trainingDao().insert(trainingLog);
+        //TrainingLog trainingLog= new TrainingLog(timevalue.getText().toString(),Currentpressure.getText().toString(), Maxpressure.getText().toString());
+        //db.trainingDao().insert(trainingLog);
         timeSwapBuff = 0L;
         customHandler.removeCallbacks(updateTimerThread);
         timevalue.setText("" + 0 + ":"

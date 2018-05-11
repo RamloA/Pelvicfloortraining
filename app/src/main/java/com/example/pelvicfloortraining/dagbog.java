@@ -41,10 +41,10 @@ public class dagbog extends AppCompatActivity implements NavigationView.OnNaviga
            //     .build();
         //Insert = findViewById(R.id.Insert);
          //date=db.trainingDao().getLog().getDato();
-        if (savedInstanceState==null){
+       // if (savedInstanceState==null){
            // Insert.setText(date);
 
-        }
+        //}
     }
 
     @Override

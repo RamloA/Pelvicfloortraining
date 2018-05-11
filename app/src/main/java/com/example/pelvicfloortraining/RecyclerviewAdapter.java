@@ -52,12 +52,13 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
                 intent.putExtra("Bean_address", mBeanAddress.get(position));
                 mContext.startActivity(intent);
             }
+
         });
     }
 
     @Override
     public int getItemCount() {
-        return mBean_SS.size();
+        return mBeanAddress.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

@@ -16,7 +16,6 @@
         android:layout_above="@+id/scan"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="28dp">
-
     </android.support.v7.widget.RecyclerView>
 
     <Button

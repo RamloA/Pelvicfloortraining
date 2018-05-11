@@ -29,10 +29,11 @@ public class Bluetooth extends AppCompatActivity {
     final List<Bean> beans = new ArrayList<>();
     LocationManager locationManager;
 
-    private ArrayList<String> mBeanAdd = new ArrayList<>();
-    private ArrayList<String> mBeanSS = new ArrayList<>();
     private  ArrayList<String> SS = new ArrayList<>();
 
+    //Recycleview (slå sammen med ovenover)
+    private ArrayList<String> mBeanAdd = new ArrayList<>();
+    private ArrayList<String> mBeanSS = new ArrayList<>();
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
@@ -120,8 +121,9 @@ public class Bluetooth extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        BeanManager.getInstance().setScanTimeout(50);
         BeanManager.getInstance().startDiscovery(listener);
+        BeanManager.getInstance().setScanTimeout(15);
+
     }
 
     BeanDiscoveryListener listener = new BeanDiscoveryListener() {
@@ -136,10 +138,11 @@ public class Bluetooth extends AppCompatActivity {
         @Override
         public void onDiscoveryComplete() {
             // This is called when the scan times out, defined by the .setScanTimeout(int seconds) method
+            // Printer det samme 2 gange
             for (Bean bean : beans) {
-                Log.d("Bluetooth", String.valueOf(bean.getDevice().getName()));
+                Log.d("Bluetooth2", String.valueOf(bean.getDevice().getName()));
                 //System.out.println(bean.getDevice().getName());   // "Bean"              (example)
-                Log.d("Address", String.valueOf(bean.getDevice().getAddress()));
+                Log.d("Address2", String.valueOf(bean.getDevice().getAddress()));
                 // System.out.println(bean.getDevice().getAddress());    // "B4:99:4C:1E:BC:75" (example);
             }
         }
@@ -147,6 +150,7 @@ public class Bluetooth extends AppCompatActivity {
     };
 
     private void initBeans(){
+        //Error ses i logcat pga. vi ikke kalder den i onStart
         for (int i=0; i<beans.size(); i++){
             if(i==0) {
                 mBeanAdd.add(String.valueOf(beans.get(i).getDevice().getAddress()));
@@ -168,6 +172,8 @@ public class Bluetooth extends AppCompatActivity {
         RecyclerviewAdapter adapter = new RecyclerviewAdapter(this, mBeanAdd, mBeanSS);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        BeanManager.getInstance().cancelDiscovery();
+
     }
 
     public void On_Scan(View view) {
@@ -177,8 +183,7 @@ public class Bluetooth extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        BeanManager.getInstance().setScanTimeout(50);
-        BeanManager.getInstance().startDiscovery();
+        BeanManager.getInstance().startDiscovery(listener);
     }
 
     @Override
