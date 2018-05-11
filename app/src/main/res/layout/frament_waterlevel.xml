@@ -7,14 +7,24 @@
     xmlns:tools="http://schemas.android.com/tools"
    tools:context="com.example.pelvicfloortraining.Waterfragment">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/Urination"
+        android:textSize="20dp"/>
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/Recyclerview"
+        android:id="@+id/Recyclerview_water"
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/R_Waterlevel"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="28dp">
     </android.support.v7.widget.RecyclerView>
+
 
     <android.support.design.widget.FloatingActionButton
 
@@ -34,5 +44,6 @@
         app:fabSize="normal"
         android:onClick="add_water"
         />
+
 
 </RelativeLayout>
