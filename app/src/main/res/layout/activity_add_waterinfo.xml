@@ -71,7 +71,7 @@
         android:layout_marginTop="41dp"
         android:ems="10"
         android:hint="@string/Leakage"
-        android:inputType="number"
+        android:inputType="textPersonName"
         android:visibility="invisible" />
 
 </RelativeLayout>

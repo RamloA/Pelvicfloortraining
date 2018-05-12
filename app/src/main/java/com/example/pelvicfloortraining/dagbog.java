@@ -41,6 +41,13 @@ public class dagbog extends AppCompatActivity implements NavigationView.OnNaviga
                 .build();
         Insert = findViewById(R.id.Insert);
         fab=findViewById(R.id.myFAB);
+        if(savedInstanceState==null){
+            Fragment fragment=new Waterfragment();
+            FragmentManager  fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.fragment_container,fragment);
+            transaction.commit();
+        }
 
     }
 

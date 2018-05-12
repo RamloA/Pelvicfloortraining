@@ -1,20 +1,35 @@
 package com.example.pelvicfloortraining;
 
+import android.arch.persistence.room.Room;
+import android.arch.persistence.room.RoomDatabase;
+import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.SimpleTimeZone;
 
 public class Add_waterinfo extends AppCompatActivity {
-
+    private static final String TAG = "Add_waterinfo";
     DatePicker datePicker;
     TimePicker timePicker;
     EditText fluid, urination, leakage;
+    Button next;
     int i;
+    AppDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,21 +46,46 @@ public class Add_waterinfo extends AppCompatActivity {
         urination = findViewById(R.id.urination_amount);
         leakage = findViewById(R.id.ifleakge);
         i=0;
+        next = findViewById(R.id.Next);
+        db= Room.databaseBuilder(this, AppDatabase.class, "Fluidintake")
+                .allowMainThreadQueries()
+                .build();
     }
 
     public void onNext(View view) {
-        datePicker.setVisibility(View.GONE);
-        timePicker.setVisibility(View.VISIBLE);
-        if (timePicker.getVisibility()==View.VISIBLE){
-            i++;
-            if (i==2){
+        switch (i){
+            case 0:
+                datePicker.setVisibility(View.GONE);
+                timePicker.setVisibility(View.VISIBLE);
+                i++;
+                break;
+            case 1:
                 timePicker.setVisibility(View.GONE);
                 fluid.setVisibility(View.VISIBLE);
                 urination.setVisibility(View.VISIBLE);
                 leakage.setVisibility(View.VISIBLE);
-            }
+                next.setText("Save");
+                i++;
+                break;
+            case 2:
+                Date date1=  new Date
+                        (datePicker.getDayOfMonth(), datePicker.getMonth(), datePicker.getYear());
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                String dateString = sdf.format(date1);
+                Log.d(TAG, "onNext:"+ dateString);
 
+                db.fluidintakeDao().insertAll(new Fluidintake(dateString, "14.00", 800,200 , "YES"));
+                Toast.makeText(this,"Information is saved",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(Add_waterinfo.this, dagbog.class));
+               /* Fragment fragment = new Waterfragment();
+                fragment = findViewById(R.id.Waterlevel);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.fragment_container,fragment);
+                transaction.commit();*/
+                break;
         }
+
 
     }
 }
