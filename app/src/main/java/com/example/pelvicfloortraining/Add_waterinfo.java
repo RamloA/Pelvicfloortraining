@@ -58,7 +58,6 @@ public class Add_waterinfo extends AppCompatActivity {
     public void onNext(View view) {
         switch (i){
             case 0:
-
                 date1= new Date (datePicker.getDayOfMonth(), datePicker.getMonth(), datePicker.getYear());
                 sdf = new SimpleDateFormat("dd-MM-yyyy");
                 dateString = sdf.format(date1);
