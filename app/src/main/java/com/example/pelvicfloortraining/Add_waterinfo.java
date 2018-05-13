@@ -20,7 +20,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.SimpleTimeZone;
+
 
 public class Add_waterinfo extends AppCompatActivity {
     private static final String TAG = "Add_waterinfo";
@@ -30,6 +30,9 @@ public class Add_waterinfo extends AppCompatActivity {
     Button next;
     int i;
     AppDatabase db;
+    Date date1;
+    SimpleDateFormat sdf;
+    String dateString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +58,11 @@ public class Add_waterinfo extends AppCompatActivity {
     public void onNext(View view) {
         switch (i){
             case 0:
-                datePicker.setVisibility(View.GONE);
+
+                date1= new Date (datePicker.getDayOfMonth(), datePicker.getMonth(), datePicker.getYear());
+                sdf = new SimpleDateFormat("dd-MM-yyyy");
+                dateString = sdf.format(date1);
+                Log.d(TAG, "onNext:"+ dateString);datePicker.setVisibility(View.GONE);
                 timePicker.setVisibility(View.VISIBLE);
                 i++;
                 break;
@@ -68,21 +75,9 @@ public class Add_waterinfo extends AppCompatActivity {
                 i++;
                 break;
             case 2:
-                Date date1=  new Date
-                        (datePicker.getDayOfMonth(), datePicker.getMonth(), datePicker.getYear());
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-                String dateString = sdf.format(date1);
-                Log.d(TAG, "onNext:"+ dateString);
-
                 db.fluidintakeDao().insertAll(new Fluidintake(dateString, "14.00", 800,200 , "YES"));
                 Toast.makeText(this,"Information is saved",Toast.LENGTH_LONG).show();
                 startActivity(new Intent(Add_waterinfo.this, dagbog.class));
-               /* Fragment fragment = new Waterfragment();
-                fragment = findViewById(R.id.Waterlevel);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.fragment_container,fragment);
-                transaction.commit();*/
                 break;
         }
 

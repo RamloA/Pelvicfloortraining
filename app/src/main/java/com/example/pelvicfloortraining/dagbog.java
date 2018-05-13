@@ -36,9 +36,6 @@ public class dagbog extends AppCompatActivity implements NavigationView.OnNaviga
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //
         NavigationView navigationView = findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected); // will check all the items
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
-               .allowMainThreadQueries()
-                .build();
         Insert = findViewById(R.id.Insert);
         fab=findViewById(R.id.myFAB);
         if(savedInstanceState==null){

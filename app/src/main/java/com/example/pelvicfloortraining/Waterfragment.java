@@ -25,23 +25,24 @@ public class Waterfragment extends Fragment {
         return view;
 
     }
-    private void initBeans(){
+    private void initBeans() {
         //Error ses i logcat pga. vi ikke kalder den i onStart
-        //db= Room.databaseBuilder(getContext(), AppDatabase.class, "Fluidintake")
-             //   .allowMainThreadQueries()
-               // .build();
-        //db.fluidintakeDao().getAllFluidintake();
-        for (int i=0; i<10; i++){
-            mDate.add("Hey"+i);
-        }
-        initAdapter();
+        db = Room.databaseBuilder(getContext(), AppDatabase.class, "Fluidintake")
+                .allowMainThreadQueries()
+                .build();
+        if (db.fluidintakeDao().getAllFluidintake().size()!=0) {
+            for (int i = 0; i < db.fluidintakeDao().getAllFluidintake().size(); i++) {
+                String date = db.fluidintakeDao().getAllFluidintake().get(i).getDate();
+                mDate.add(date);
+            }
+            initAdapter();
 
+        }
     }
     private void  initAdapter(){
         RecyclerView recyclerView = view.findViewById(R.id.Recyclerview_water);
         RecyclerviewAdapter_Water adapter = new RecyclerviewAdapter_Water(getContext(), mDate);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
     }
 }
