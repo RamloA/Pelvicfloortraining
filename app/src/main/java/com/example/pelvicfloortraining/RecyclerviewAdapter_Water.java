@@ -17,11 +17,12 @@ import java.util.ArrayList;
 public class RecyclerviewAdapter_Water extends RecyclerView.Adapter<RecyclerviewAdapter_Water.ViewHolder>{
     private static final String TAG = "Adapter_Water";
 
-    private ArrayList<String> mDate = new ArrayList<>();
+    private ArrayList<Fluidintake> mFluid = new ArrayList<>();
+
     private Context mContext;
 
-    public RecyclerviewAdapter_Water(Context mContext, ArrayList<String> mDate) {
-        this.mDate = mDate;
+    public RecyclerviewAdapter_Water(Context mContext, ArrayList<Fluidintake> mFluid) {
+        this.mFluid = mFluid;
         this.mContext = mContext;
     }
 
@@ -36,7 +37,8 @@ public class RecyclerviewAdapter_Water extends RecyclerView.Adapter<Recyclerview
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "OBViewHolder:called");
-        holder.date.setText(mDate.get(position));
+        holder.date.setText(mFluid.get(position).getDate());
+        holder.time.setText(mFluid.get(position).getTime());
         holder.waterlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,16 +50,18 @@ public class RecyclerviewAdapter_Water extends RecyclerView.Adapter<Recyclerview
 
     @Override
     public int getItemCount() {
-        return mDate.size();
+        return mFluid.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
        TextView date;
+       TextView time;
        RelativeLayout waterlayout;
         public ViewHolder(View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.date);
+            time = itemView.findViewById(R.id.time1);
             waterlayout = itemView.findViewById(R.id.water_layout);
 
         }

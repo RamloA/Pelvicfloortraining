@@ -11,11 +11,25 @@
         android:layout_height="wrap_content"
         android:id="@+id/date"
         android:layout_centerVertical="true"
-        android:text="D. 7. maj 2018 "
+        android:text="7. maj 2018 "
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
+        android:textSize="18sp"
+
 
         />
+
+    <TextView
+        android:id="@+id/time1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="14.00"
+        android:textSize="13sp"
+       />
 
 
 </RelativeLayout>

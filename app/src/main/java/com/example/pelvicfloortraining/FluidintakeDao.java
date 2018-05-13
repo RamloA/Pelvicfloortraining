@@ -16,6 +16,6 @@ public interface FluidintakeDao {
     @Insert
     void insertAll(Fluidintake... fluidintake);
 
-    //@Update
-    //int update(Fluidintake fluidintake);
+    @Update
+    int update(Fluidintake... fluidintake);
 }

@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 public class Waterfragment extends Fragment {
-    ArrayList<String> mDate  = new ArrayList<>();
+    ArrayList<Fluidintake> mfluidintakes = new ArrayList<>();
     public  View view;
     AppDatabase db;
     @Nullable
@@ -23,7 +23,6 @@ public class Waterfragment extends Fragment {
         view =inflater.inflate(R.layout.frament_waterlevel, container, false);
         initBeans();
         return view;
-
     }
     private void initBeans() {
         //Error ses i logcat pga. vi ikke kalder den i onStart
@@ -32,8 +31,8 @@ public class Waterfragment extends Fragment {
                 .build();
         if (db.fluidintakeDao().getAllFluidintake().size()!=0) {
             for (int i = 0; i < db.fluidintakeDao().getAllFluidintake().size(); i++) {
-                String date = db.fluidintakeDao().getAllFluidintake().get(i).getDate();
-                mDate.add(date);
+                Fluidintake fluidintake = db.fluidintakeDao().getAllFluidintake().get(i);
+                mfluidintakes.add(fluidintake);
             }
             initAdapter();
 
@@ -41,7 +40,7 @@ public class Waterfragment extends Fragment {
     }
     private void  initAdapter(){
         RecyclerView recyclerView = view.findViewById(R.id.Recyclerview_water);
-        RecyclerviewAdapter_Water adapter = new RecyclerviewAdapter_Water(getContext(), mDate);
+        RecyclerviewAdapter_Water adapter = new RecyclerviewAdapter_Water(getContext(), mfluidintakes);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }

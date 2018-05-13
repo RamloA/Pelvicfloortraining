@@ -17,6 +17,7 @@ import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,9 +31,10 @@ public class Add_waterinfo extends AppCompatActivity {
     Button next;
     int i;
     AppDatabase db;
-    Date date1;
+    Date date1, time;
     SimpleDateFormat sdf;
     String dateString;
+    String timeString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,14 +69,18 @@ public class Add_waterinfo extends AppCompatActivity {
                 break;
             case 1:
                 timePicker.setVisibility(View.GONE);
+                timeString = String.valueOf((timePicker.getHour()))+"."+ String.valueOf(timePicker.getMinute());
+                Log.d(TAG, "onNext:time"+timeString);
                 fluid.setVisibility(View.VISIBLE);
                 urination.setVisibility(View.VISIBLE);
                 leakage.setVisibility(View.VISIBLE);
                 next.setText("Save");
                 i++;
                 break;
+
             case 2:
-                db.fluidintakeDao().insertAll(new Fluidintake(dateString, "14.00", 800,200 , "YES"));
+                String leakage2 = String.valueOf(leakage.getText());
+                db.fluidintakeDao().insertAll(new Fluidintake(dateString, timeString, fluid.getInputType(),urination.getInputType(), leakage2));
                 Toast.makeText(this,"Information is saved",Toast.LENGTH_LONG).show();
                 startActivity(new Intent(Add_waterinfo.this, dagbog.class));
                 break;
