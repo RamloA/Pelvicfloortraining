@@ -28,7 +28,6 @@ import java.util.List;
 
 
 public class Training extends AppCompatActivity {
-
     final List<Bean> beans = new ArrayList<>();
     private static final String TAG = "Training";
     Bean myBean;
@@ -40,6 +39,7 @@ public class Training extends AppCompatActivity {
     private long startTime = 0L;
     private TextView Currentpressure;
     private TextView Maxpressure;
+    boolean pressure;
 
     long timeInMilliseconds = 0L; //SystemClock.uptimeMillis() - startTime;
 
@@ -157,6 +157,11 @@ public class Training extends AppCompatActivity {
             int a1 = a1H * 256 + a1L;
             int a2 = a2H * 256 + a2L;
             Log.d(TAG, "A1 values:" + a1);
+            double voltage = 0.004147+(-0.13188*a1);
+            double transferfunction = 0.1+0.66667*voltage;
+            Toast.makeText(getApplicationContext(), "Pressure:"+transferfunction, Toast.LENGTH_LONG).show();
+            Currentpressure.setText(""+a2);
+            Maxpressure.setText(""+transferfunction);
             Log.d(TAG, "A2 values:" + a2);
         }
 
@@ -186,6 +191,7 @@ public class Training extends AppCompatActivity {
                 .build();
 
     }
+
     private void getIncomingIntent() {
         Log.d(TAG, "getIncomingIntent: Checking incoming intent");
         if (getIntent().hasExtra("Bean_address")) {
@@ -213,7 +219,6 @@ public class Training extends AppCompatActivity {
         super.onStart();
         BeanManager.getInstance().startDiscovery(listener);
         BeanManager.getInstance().setScanTimeout(15);
-
     }
 
     public void On_connect(View view) {
@@ -238,6 +243,7 @@ public class Training extends AppCompatActivity {
     }
 
     public void OnStart_Btn(View view) {
+        Log.d("Onstart_Btn ","Button Start clicked");
         startTime = SystemClock.uptimeMillis();
         customHandler.postDelayed(updateTimerThread, 0);
         startButton.setVisibility(View.GONE);
@@ -254,19 +260,10 @@ public class Training extends AppCompatActivity {
 
     private Runnable updateTimerThread = new Runnable() {
         public void run() {
-            final String TAG="BEAN";
-            final String BeanInfo=myBean.describe();
-            byte requestCode=0x02;
-            byte[] requestMsg= {requestCode};
-
-            myBean.sendSerialMessage(requestMsg);
-
             timeInMilliseconds = 0L;//SystemClock.uptimeMillis() - startTime;
             timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
 
             updatedTime = timeSwapBuff + timeInMilliseconds;
-
-
             int secs = (int) (updatedTime / 1000);
             int mins = secs / 60;
             secs = secs % 60;
@@ -274,6 +271,7 @@ public class Training extends AppCompatActivity {
             timevalue.setText("" + mins + ":"
                     + String.format("%02d", secs) + ":"
                     + String.format("%03d", milliseconds));
+            getMessage();
             customHandler.postDelayed(this, 0);
 
         }
@@ -289,6 +287,25 @@ public class Training extends AppCompatActivity {
                 + String.format("%03d", 0));
         stopButton.setVisibility(View.GONE);
         startButton.setVisibility(View.VISIBLE);
+
+    }
+
+
+    private void getMessage(){
+        Handler handler = new Handler();
+        int delay = 1000; //milliseconds
+
+        handler.postDelayed(new Runnable(){
+            public void run(){
+                //do something
+                final String TAG="BEAN";
+                final String BeanInfo=myBean.describe();
+                byte requestCode=0x02;
+                byte[] requestMsg= {requestCode};
+                myBean.sendSerialMessage(requestMsg);
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
 
     }
 

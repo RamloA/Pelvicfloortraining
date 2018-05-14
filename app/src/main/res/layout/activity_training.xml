@@ -79,10 +79,10 @@
         android:id="@+id/Currentpressure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/timevalue"
+        android:layout_alignStart="@+id/Startbtn"
         android:layout_below="@+id/timevalue"
         android:layout_marginStart="13dp"
-        android:layout_marginTop="133dp"
+        android:layout_marginTop="134dp"
         android:hint="@string/CurrentPressure"
         android:text="" />
 
