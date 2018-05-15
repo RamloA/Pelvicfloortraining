@@ -98,5 +98,15 @@
         android:layout_marginStart="25dp"
         android:layout_centerHorizontal="true"
         android:text="" />
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="290dp"
+        android:layout_height="290dp"
+        android:id="@+id/graph_"
+        app:seriesData="0=5;2=5;3=0;4=2"
+        app:seriesType="line"
+        app:seriesColor="#ee0000"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
 
 </RelativeLayout>

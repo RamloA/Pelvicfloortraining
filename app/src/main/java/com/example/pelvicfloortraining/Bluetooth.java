@@ -170,7 +170,9 @@ public class Bluetooth extends AppCompatActivity {
         RecyclerviewAdapter adapter = new RecyclerviewAdapter(this, mBeanAdd, mBeanSS);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        BeanManager.getInstance().cancelDiscovery();
+        if(mBeanAdd.size()!=0) {
+            BeanManager.getInstance().cancelDiscovery();
+        }
 
     }
 

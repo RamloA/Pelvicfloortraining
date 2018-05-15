@@ -22,18 +22,18 @@ public class TrainingLog {
     }
 
     @PrimaryKey @NonNull
-    //private int id;
+    private int id;
     private String dato;
     private String type;
     private String max;
 
-    /*public int getId() {
+    public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }*/
+    }
 
     public  String getDato() {
         return dato;

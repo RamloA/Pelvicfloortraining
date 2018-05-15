@@ -2,6 +2,7 @@ package com.example.pelvicfloortraining;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.punchthrough.bean.sdk.Bean;
 import com.punchthrough.bean.sdk.BeanDiscoveryListener;
 import com.punchthrough.bean.sdk.BeanListener;
@@ -40,6 +44,8 @@ public class Training extends AppCompatActivity {
     private TextView Currentpressure;
     private TextView Maxpressure;
     boolean pressure;
+    GraphView graphView;
+
 
     long timeInMilliseconds = 0L; //SystemClock.uptimeMillis() - startTime;
 
@@ -168,6 +174,8 @@ public class Training extends AppCompatActivity {
     };
     String Bean_add;
     AppDatabase db;
+    LineGraphSeries<DataPoint> series;
+    public  View view;
 
 
     @Override
@@ -186,6 +194,7 @@ public class Training extends AppCompatActivity {
         timevalue = findViewById(R.id.timevalue);
         Currentpressure = findViewById(R.id.Currentpressure);
         Maxpressure = findViewById(R.id.Maxpressure);
+        graphView = findViewById(R.id.graph_);
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
                 .allowMainThreadQueries()
                 .build();
@@ -271,9 +280,23 @@ public class Training extends AppCompatActivity {
             timevalue.setText("" + mins + ":"
                     + String.format("%02d", secs) + ":"
                     + String.format("%03d", milliseconds));
-            getMessage();
-            customHandler.postDelayed(this, 0);
+            final String TAG="BEAN";
+            final String BeanInfo=myBean.describe();
+            byte requestCode=0x02;
+            byte[] requestMsg= {requestCode};
+            myBean.sendSerialMessage(requestMsg);
 
+            //Graph
+            double y, x;
+            x=-4.0;
+            series = new LineGraphSeries<>();
+            for(int j=0; j<100; j++) {
+                x = x + 1;
+                y = Math.sin(x);
+                series.appendData(new DataPoint(x, y), true, 100);
+            }
+            graphView.addSeries(series);
+            customHandler.postDelayed(this, 0);
         }
     };
 
@@ -291,24 +314,11 @@ public class Training extends AppCompatActivity {
     }
 
 
-    private void getMessage(){
-        Handler handler = new Handler();
-        int delay = 1000; //milliseconds
-
-        handler.postDelayed(new Runnable(){
-            public void run(){
-                //do something
-                final String TAG="BEAN";
-                final String BeanInfo=myBean.describe();
-                byte requestCode=0x02;
-                byte[] requestMsg= {requestCode};
-                myBean.sendSerialMessage(requestMsg);
-                handler.postDelayed(this, delay);
-            }
-        }, delay);
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, HomeActivity.class));
+      return;
     }
-
 }
 
 
