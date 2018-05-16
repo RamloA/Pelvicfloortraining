@@ -1,5 +1,6 @@
 package com.example.pelvicfloortraining;
 
+import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 public class Workoutfragment extends Fragment {
     LineGraphSeries<DataPoint> series;
     public  View view;
+    AppDatabase db;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -24,17 +26,21 @@ public class Workoutfragment extends Fragment {
     }
 
     private void graph(){
-        double y, x;
-        GraphView graph;
-        x=-4.0;
-        graph = view.findViewById(R.id.graph_workout);
-        series = new LineGraphSeries<>();
-        for(int j=0; j<30; j++) {
-            x = x + 1;
-            y = Math.sin(x);
-            series.appendData(new DataPoint(x, y), true, 30);
-        }
-        if(graph!=null) {
+        db = Room.databaseBuilder(getContext(), AppDatabase.class, "Training")
+                .allowMainThreadQueries()
+                .build();
+        if(db.trainingDao().getLog().size()!=0)
+        {
+            double y, x;
+            GraphView graph;
+            x = -4.0;
+            graph = view.findViewById(R.id.graph_workout);
+            series = new LineGraphSeries<>();
+            for (int j = 0; j < 30; j++) {
+                x = x + 1;
+                y = Math.sin(x);
+                series.appendData(new DataPoint(x, y), true, 30);
+            }
             graph.addSeries(series);
 
         }

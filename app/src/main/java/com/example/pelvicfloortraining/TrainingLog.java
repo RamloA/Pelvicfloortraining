@@ -9,23 +9,20 @@ import android.support.annotation.NonNull;
 @Entity
 public class TrainingLog {
 
-    public TrainingLog(String dato, String type, String max) {
+    public TrainingLog(String dato, int max) {
         this.dato = dato;
-        this.type = type;
         this.max = max;
     }
 
     public TrainingLog(){
         dato="";
-        type="";
-        max="";
+        max=0;
     }
 
     @PrimaryKey @NonNull
     private int id;
     private String dato;
-    private String type;
-    private String max;
+    private int max;
 
     public int getId() {
         return id;
@@ -43,19 +40,11 @@ public class TrainingLog {
         this.dato = dato;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String Type) {
-        type = Type;
-    }
-
-    public String getMax() {
+    public int getMax() {
         return max;
     }
 
-    public void setMax(String max) {
+    public void setMax(int max) {
         this.max = max;
     }
 }

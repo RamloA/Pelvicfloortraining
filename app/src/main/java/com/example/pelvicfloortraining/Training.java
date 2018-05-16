@@ -27,7 +27,10 @@ import com.punchthrough.bean.sdk.message.ScratchBank;
 
 import org.apache.commons.codec.binary.Hex;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -43,13 +46,11 @@ public class Training extends AppCompatActivity {
     private long startTime = 0L;
     private TextView Currentpressure;
     private TextView Maxpressure;
-    boolean pressure;
     GraphView graphView;
+    int maxpressure = 0;
 
 
     long timeInMilliseconds = 0L; //SystemClock.uptimeMillis() - startTime;
-
-   TrainingLog log= new TrainingLog();
 
     long timeSwapBuff = 0L;
 
@@ -164,10 +165,13 @@ public class Training extends AppCompatActivity {
             int a2 = a2H * 256 + a2L;
             Log.d(TAG, "A1 values:" + a1);
             double voltage = 0.004147+(-0.13188*a1);
-            double transferfunction = 0.1+0.66667*voltage;
-            Toast.makeText(getApplicationContext(), "Pressure:"+transferfunction, Toast.LENGTH_LONG).show();
+            double Pressure_transfunc = 0.1+0.66667*voltage;
+            //Toast.makeText(getApplicationContext(), "Pressure:"+Pressure_transfunc, Toast.LENGTH_LONG).show();
             Currentpressure.setText(""+a2);
-            Maxpressure.setText(""+transferfunction);
+            Maxpressure.setText(""+Pressure_transfunc);
+            if(Pressure_transfunc>maxpressure){
+                maxpressure= (int) Pressure_transfunc;
+            }
             Log.d(TAG, "A2 values:" + a2);
         }
 
@@ -198,7 +202,6 @@ public class Training extends AppCompatActivity {
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
                 .allowMainThreadQueries()
                 .build();
-
     }
 
     private void getIncomingIntent() {
@@ -301,8 +304,6 @@ public class Training extends AppCompatActivity {
     };
 
     public void Onstop_btn(View view) {
-        //TrainingLog trainingLog= new TrainingLog(timevalue.getText().toString(),Currentpressure.getText().toString(), Maxpressure.getText().toString());
-        //db.trainingDao().insert(trainingLog);
         timeSwapBuff = 0L;
         customHandler.removeCallbacks(updateTimerThread);
         timevalue.setText("" + 0 + ":"
@@ -310,6 +311,17 @@ public class Training extends AppCompatActivity {
                 + String.format("%03d", 0));
         stopButton.setVisibility(View.GONE);
         startButton.setVisibility(View.VISIBLE);
+        if (maxpressure!=0){
+            Calendar c = Calendar.getInstance();
+            int mYear = c.get(Calendar.YEAR);
+            int mMonth = c.get(Calendar.MONTH);
+            int mDay = c.get(Calendar.DAY_OF_MONTH);
+            Date date1= new Date(mDay,mMonth, mYear);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            String date = sdf.format(date1);
+            Log.d(TAG, "Onstop_btn: date" + date);
+            db.trainingDao().insert(new TrainingLog(date, maxpressure));
+        }
 
     }
 
@@ -317,6 +329,9 @@ public class Training extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, HomeActivity.class));
+        if(myBean.isConnected()){
+            myBean.disconnect();
+        }
       return;
     }
 }

@@ -5,12 +5,14 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import java.util.List;
+
 
 @Dao
 public interface TrainingDao {
 
     @Query("SELECT * FROM `traininglog`")
-    TrainingLog getLog();
+    List<TrainingLog> getLog();
 
     @Update
     int update(TrainingLog trainingLog);

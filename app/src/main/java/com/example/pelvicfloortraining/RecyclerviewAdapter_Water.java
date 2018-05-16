@@ -43,7 +43,6 @@ public class RecyclerviewAdapter_Water extends RecyclerView.Adapter<Recyclerview
             @Override
             public void onClick(View v) {
             }
-
         });
 
     }
