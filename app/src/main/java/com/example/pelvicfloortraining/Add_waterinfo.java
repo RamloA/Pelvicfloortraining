@@ -1,11 +1,7 @@
 package com.example.pelvicfloortraining;
 
 import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,14 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 
 public class Add_waterinfo extends AppCompatActivity {
@@ -31,20 +21,14 @@ public class Add_waterinfo extends AppCompatActivity {
     Button next;
     int i;
     AppDatabase db;
-    Date date1, time;
-    SimpleDateFormat sdf;
     String dateString;
     String timeString;
+    int month;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_waterinfo);
         datePicker = findViewById(R.id.datePicker);
-        Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
-        int mDay = c.get(Calendar.DAY_OF_MONTH);
-        datePicker.updateDate(mYear,mMonth, mDay);
         datePicker.setVisibility(View.VISIBLE);
         timePicker = findViewById(R.id.timePicker);
         fluid = findViewById(R.id.fluidintake);
@@ -60,10 +44,9 @@ public class Add_waterinfo extends AppCompatActivity {
     public void onNext(View view) {
         switch (i){
             case 0:
-                date1= new Date (datePicker.getDayOfMonth(), datePicker.getMonth(), datePicker.getYear());
-                sdf = new SimpleDateFormat("dd-MM-yyyy");
-                dateString = sdf.format(date1);
-                Log.d(TAG, "onNext:"+ dateString);datePicker.setVisibility(View.GONE);
+                month=datePicker.getMonth()+1;
+                dateString = ""+datePicker.getDayOfMonth()+"-"+month+"-"+datePicker.getYear();
+                datePicker.setVisibility(View.GONE);
                 timePicker.setVisibility(View.VISIBLE);
                 i++;
                 break;
@@ -85,7 +68,5 @@ public class Add_waterinfo extends AppCompatActivity {
                 startActivity(new Intent(Add_waterinfo.this, dagbog.class));
                 break;
         }
-
-
     }
 }

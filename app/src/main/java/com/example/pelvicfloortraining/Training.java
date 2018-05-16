@@ -109,7 +109,7 @@ public class Training extends AppCompatActivity {
         public void onConnectionFailed() {
                 Context context = getApplicationContext();
                 CharSequence text = "Could not connect to Bean!";
-                int duration = Toast.LENGTH_LONG;
+                int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
         }
@@ -218,7 +218,7 @@ public class Training extends AppCompatActivity {
         for (int i = 0; i < beans.size(); i++) {
             if (beans.get(i).getDevice().getAddress().equals(Bean_Add)) {
                 Log.d(TAG, "Connect_Bean: connecting");
-                Toast.makeText(this, "Found"+Bean_Add, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Found: "+Bean_Add, Toast.LENGTH_SHORT).show();
                 myBean = beans.get(i);
                 Log.d(TAG, String.valueOf(beans.get(i)));
                 myBean.connect(this, beanListener);
