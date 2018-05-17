@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.punchthrough.bean.sdk.Bean;
@@ -44,9 +45,7 @@ public class Training extends AppCompatActivity {
     private Button stopButton;
     private TextView timevalue;
     private long startTime = 0L;
-    private TextView Currentpressure;
     private TextView Maxpressure;
-    GraphView graphView;
     int maxpressure = 0;
 
 
@@ -164,10 +163,10 @@ public class Training extends AppCompatActivity {
             int a1 = a1H * 256 + a1L;
             int a2 = a2H * 256 + a2L;
             Log.d(TAG, "A1 values:" + a1);
-            double voltage = 0.004147+(-0.13188*a1);
-            double Pressure_transfunc = 0.1+0.66667*voltage;
-            //Toast.makeText(getApplicationContext(), "Pressure:"+Pressure_transfunc, Toast.LENGTH_LONG).show();
-            Currentpressure.setText(""+a2);
+            double voltage =(0.004147*a1)-0.53188;
+            double Pressure_transfunc = (voltage/0.66667)-0.1;
+
+            //Currentpressure.setText(""+a2);
             Maxpressure.setText(""+Pressure_transfunc);
             if(Pressure_transfunc>maxpressure){
                 maxpressure= (int) Pressure_transfunc;
@@ -196,9 +195,7 @@ public class Training extends AppCompatActivity {
         pauseButton = findViewById(R.id.Pausebtn);
         stopButton = findViewById(R.id.Stopbtn);
         timevalue = findViewById(R.id.timevalue);
-        Currentpressure = findViewById(R.id.Currentpressure);
         Maxpressure = findViewById(R.id.Maxpressure);
-        graphView = findViewById(R.id.graph_);
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
                 .allowMainThreadQueries()
                 .build();
@@ -288,17 +285,6 @@ public class Training extends AppCompatActivity {
             byte requestCode=0x02;
             byte[] requestMsg= {requestCode};
             myBean.sendSerialMessage(requestMsg);
-
-            //Graph
-            double y, x;
-            x=-4.0;
-            series = new LineGraphSeries<>();
-            for(int j=0; j<100; j++) {
-                x = x + 1;
-                y = Math.sin(x);
-                series.appendData(new DataPoint(x, y), true, 100);
-            }
-            graphView.addSeries(series);
             customHandler.postDelayed(this, 0);
         }
     };
@@ -311,7 +297,7 @@ public class Training extends AppCompatActivity {
                 + String.format("%03d", 0));
         stopButton.setVisibility(View.GONE);
         startButton.setVisibility(View.VISIBLE);
-        if (maxpressure!=0){
+        if (maxpressure>0){
             Calendar c = Calendar.getInstance();
             int mYear = c.get(Calendar.YEAR);
             int mMonth = c.get(Calendar.MONTH);

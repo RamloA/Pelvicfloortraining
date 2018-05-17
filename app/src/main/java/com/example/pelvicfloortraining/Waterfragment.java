@@ -44,4 +44,5 @@ public class Waterfragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
+
 }

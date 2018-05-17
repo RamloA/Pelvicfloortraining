@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="@string/timerVal"
         android:textSize="40sp"
         android:layout_centerHorizontal="true"
@@ -75,38 +75,16 @@
         android:text="@string/StopButtonLabel"
         android:onClick="Onstop_btn"/>
 
-    <TextView
-        android:id="@+id/Currentpressure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/Startbtn"
-        android:layout_below="@+id/timevalue"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="134dp"
-        android:hint="@string/CurrentPressure"
-        android:text="" />
 
     <TextView
         android:id="@+id/Maxpressure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/Currentpressure"
-        android:layout_alignBottom="@+id/Currentpressure"
-        android:layout_alignEnd="@+id/timevalue"
-        android:layout_toEndOf="@+id/Currentpressure"
+        android:layout_alignStart="@+id/Connectbtn"
+        android:layout_centerVertical="true"
         android:hint="@string/Maxpressure"
-        android:layout_marginStart="25dp"
-        android:layout_centerHorizontal="true"
         android:text="" />
-    <com.jjoe64.graphview.GraphView
-        android:layout_width="290dp"
-        android:layout_height="290dp"
-        android:id="@+id/graph_"
-        app:seriesData="0=5;2=5;3=0;4=2"
-        app:seriesType="line"
-        app:seriesColor="#ee0000"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+
 
 
 </RelativeLayout>

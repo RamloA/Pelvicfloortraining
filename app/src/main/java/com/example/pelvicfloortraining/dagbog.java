@@ -59,6 +59,7 @@ public class dagbog extends AppCompatActivity implements NavigationView.OnNaviga
             mdrawLayout.closeDrawer(GravityCompat.START);
         }
         else {
+            startActivity(new Intent(dagbog.this, HomeActivity.class));
             super.onBackPressed();
         }
     }
