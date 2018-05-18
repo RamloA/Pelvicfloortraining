@@ -19,7 +19,7 @@ public class TrainingLog {
         max=0;
     }
 
-    @PrimaryKey @NonNull
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String dato;
     private int max;
@@ -37,7 +37,7 @@ public class TrainingLog {
     }
 
     public void setDato(String date) {
-        this.dato = dato;
+        this.dato = date;
     }
 
     public int getMax() {

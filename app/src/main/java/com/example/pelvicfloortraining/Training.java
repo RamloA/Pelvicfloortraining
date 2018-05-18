@@ -3,6 +3,7 @@ package com.example.pelvicfloortraining;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
+
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -10,13 +11,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 import com.punchthrough.bean.sdk.Bean;
 import com.punchthrough.bean.sdk.BeanDiscoveryListener;
 import com.punchthrough.bean.sdk.BeanListener;
@@ -25,10 +22,7 @@ import com.punchthrough.bean.sdk.message.BeanError;
 import com.punchthrough.bean.sdk.message.Callback;
 import com.punchthrough.bean.sdk.message.DeviceInfo;
 import com.punchthrough.bean.sdk.message.ScratchBank;
-
 import org.apache.commons.codec.binary.Hex;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,6 +41,7 @@ public class Training extends AppCompatActivity {
     private long startTime = 0L;
     private TextView Maxpressure;
     int maxpressure = 0;
+    Date c = new Date();
 
 
     long timeInMilliseconds = 0L; //SystemClock.uptimeMillis() - startTime;
@@ -165,7 +160,6 @@ public class Training extends AppCompatActivity {
             Log.d(TAG, "A1 values:" + a1);
             double voltage =(0.004147*a1)-0.53188;
             double Pressure_transfunc = (voltage/0.66667)-0.1;
-
             //Currentpressure.setText(""+a2);
             Maxpressure.setText(""+Pressure_transfunc);
             if(Pressure_transfunc>maxpressure){
@@ -177,7 +171,6 @@ public class Training extends AppCompatActivity {
     };
     String Bean_add;
     AppDatabase db;
-    LineGraphSeries<DataPoint> series;
     public  View view;
 
 
@@ -190,10 +183,14 @@ public class Training extends AppCompatActivity {
         BeanManager.getInstance().setScanTimeout(15);
         getIncomingIntent();
         Connnectbtn = findViewById(R.id.Connectbtn);
-        Connnectbtn.setVisibility(View.VISIBLE);
+        Connnectbtn.setVisibility(View.GONE);
         startButton = findViewById(R.id.Startbtn);
         pauseButton = findViewById(R.id.Pausebtn);
         stopButton = findViewById(R.id.Stopbtn);
+        //
+        startButton.setVisibility(View.VISIBLE);
+        pauseButton.setVisibility(View.VISIBLE);
+        //
         timevalue = findViewById(R.id.timevalue);
         Maxpressure = findViewById(R.id.Maxpressure);
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
@@ -257,6 +254,8 @@ public class Training extends AppCompatActivity {
         customHandler.postDelayed(updateTimerThread, 0);
         startButton.setVisibility(View.GONE);
         stopButton.setVisibility(View.VISIBLE);
+        //
+        maxpressure=15;
 
     }
 
@@ -279,17 +278,18 @@ public class Training extends AppCompatActivity {
             int milliseconds = (int) (updatedTime % 1000);
             timevalue.setText("" + mins + ":"
                     + String.format("%02d", secs) + ":"
-                    + String.format("%03d", milliseconds));
+                    + String.format("%02d", milliseconds));
             final String TAG="BEAN";
-            final String BeanInfo=myBean.describe();
+           // final String BeanInfo=myBean.describe();
             byte requestCode=0x02;
             byte[] requestMsg= {requestCode};
-            myBean.sendSerialMessage(requestMsg);
+           // myBean.sendSerialMessage(requestMsg);
             customHandler.postDelayed(this, 0);
         }
     };
 
     public void Onstop_btn(View view) {
+
         timeSwapBuff = 0L;
         customHandler.removeCallbacks(updateTimerThread);
         timevalue.setText("" + 0 + ":"
@@ -297,16 +297,19 @@ public class Training extends AppCompatActivity {
                 + String.format("%03d", 0));
         stopButton.setVisibility(View.GONE);
         startButton.setVisibility(View.VISIBLE);
+
         if (maxpressure>0){
+            Toast.makeText(this, "Saving pressure", Toast.LENGTH_SHORT).show();
             Calendar c = Calendar.getInstance();
             int mYear = c.get(Calendar.YEAR);
-            int mMonth = c.get(Calendar.MONTH);
+            int mMonth = c.get(Calendar.MONTH)+1;
             int mDay = c.get(Calendar.DAY_OF_MONTH);
-            Date date1= new Date(mDay,mMonth, mYear);
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            String date = sdf.format(date1);
-            Log.d(TAG, "Onstop_btn: date" + date);
-            db.trainingDao().insert(new TrainingLog(date, maxpressure));
+
+           // SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+            TrainingLog trainingLog = new TrainingLog(""+mDay+"."+mMonth+"."+mYear, maxpressure);
+            //Toast.makeText(this, ""+mDay+"."+mMonth+"."+mYear, Toast.LENGTH_SHORT).show();
+            db.trainingDao().insert(trainingLog);
         }
 
     }
@@ -315,11 +318,12 @@ public class Training extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, HomeActivity.class));
-        if(myBean.isConnected()){
+        /*if(myBean.isConnected()){
             myBean.disconnect();
-        }
+        }*/
       return;
     }
+
 }
 
 

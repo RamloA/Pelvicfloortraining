@@ -15,12 +15,12 @@ public interface TrainingDao {
     List<TrainingLog> getLog();
 
     @Update
-    int update(TrainingLog trainingLog);
+    int update(TrainingLog... trainingLog);
 
     @Insert
-    void insert(TrainingLog trainingLog);
+    void insert(TrainingLog... trainingLog);
 
-    @Query("SELECT COUNT(*) from `traininglog`")
-    int counttraininglog();
+    //@Query("SELECT COUNT(*) from `traininglog`")
+    //int counttraininglog();
 
 }
