@@ -28,8 +28,9 @@
         </activity>
         <activity android:name=".dagbog" />
         <activity android:name=".Training" />
-        <activity android:name=".Bluetooth"></activity>
-        <activity android:name=".Add_waterinfo"></activity>
+        <activity android:name=".Bluetooth" />
+        <activity android:name=".Add_waterinfo" />
+        <activity android:name=".Info_fluid"></activity>
     </application>
 
 </manifest>

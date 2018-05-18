@@ -9,8 +9,10 @@
 
 
     <com.jjoe64.graphview.GraphView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_height="400dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:id="@+id/graph_workout"
         app:seriesData="0=5;2=5;3=0;4=2"
         app:seriesType="line"

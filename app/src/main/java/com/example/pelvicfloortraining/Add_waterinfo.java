@@ -63,8 +63,10 @@ public class Add_waterinfo extends AppCompatActivity {
 
             case 2:
                 String leakage2 = String.valueOf(leakage.getText());
-                db.fluidintakeDao().insertAll(new Fluidintake(dateString, timeString, fluid.getInputType(),urination.getInputType(), leakage2));
-                Toast.makeText(this,"Information is saved",Toast.LENGTH_LONG).show();
+                int fluid_a = new Integer(fluid.getText().toString());
+                int urin = new Integer(urination.getText().toString());
+                db.fluidintakeDao().insertAll(new Fluidintake(dateString, timeString, fluid_a,urin, leakage2));
+                Toast.makeText(this,"Information is saved"+fluid_a,Toast.LENGTH_LONG).show();
                 startActivity(new Intent(Add_waterinfo.this, dagbog.class));
                 break;
         }

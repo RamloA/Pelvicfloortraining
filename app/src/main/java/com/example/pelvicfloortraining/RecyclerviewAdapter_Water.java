@@ -1,6 +1,7 @@
 package com.example.pelvicfloortraining;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,6 +43,10 @@ public class RecyclerviewAdapter_Water extends RecyclerView.Adapter<Recyclerview
         holder.waterlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent= new Intent(mContext, Info_fluid.class);
+                String pos = ""+position;
+                intent.putExtra("Pos",pos);
+                mContext.startActivity(intent);
             }
         });
 

@@ -183,14 +183,12 @@ public class Training extends AppCompatActivity {
         BeanManager.getInstance().setScanTimeout(15);
         getIncomingIntent();
         Connnectbtn = findViewById(R.id.Connectbtn);
-        Connnectbtn.setVisibility(View.GONE);
+        Connnectbtn.setVisibility(View.VISIBLE);
         startButton = findViewById(R.id.Startbtn);
         pauseButton = findViewById(R.id.Pausebtn);
         stopButton = findViewById(R.id.Stopbtn);
-        //
-        startButton.setVisibility(View.VISIBLE);
-        pauseButton.setVisibility(View.VISIBLE);
-        //
+        startButton.setVisibility(View.GONE);
+        pauseButton.setVisibility(View.GONE);
         timevalue = findViewById(R.id.timevalue);
         Maxpressure = findViewById(R.id.Maxpressure);
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "Training")
@@ -212,7 +210,7 @@ public class Training extends AppCompatActivity {
         for (int i = 0; i < beans.size(); i++) {
             if (beans.get(i).getDevice().getAddress().equals(Bean_Add)) {
                 Log.d(TAG, "Connect_Bean: connecting");
-                Toast.makeText(this, "Found: "+Bean_Add, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Connecting to: "+Bean_Add, Toast.LENGTH_SHORT).show();
                 myBean = beans.get(i);
                 Log.d(TAG, String.valueOf(beans.get(i)));
                 myBean.connect(this, beanListener);
@@ -254,8 +252,6 @@ public class Training extends AppCompatActivity {
         customHandler.postDelayed(updateTimerThread, 0);
         startButton.setVisibility(View.GONE);
         stopButton.setVisibility(View.VISIBLE);
-        //
-        maxpressure=15;
 
     }
 
@@ -280,16 +276,15 @@ public class Training extends AppCompatActivity {
                     + String.format("%02d", secs) + ":"
                     + String.format("%02d", milliseconds));
             final String TAG="BEAN";
-           // final String BeanInfo=myBean.describe();
+            final String BeanInfo=myBean.describe();
             byte requestCode=0x02;
             byte[] requestMsg= {requestCode};
-           // myBean.sendSerialMessage(requestMsg);
+            myBean.sendSerialMessage(requestMsg);
             customHandler.postDelayed(this, 0);
         }
     };
 
     public void Onstop_btn(View view) {
-
         timeSwapBuff = 0L;
         customHandler.removeCallbacks(updateTimerThread);
         timevalue.setText("" + 0 + ":"
@@ -299,28 +294,24 @@ public class Training extends AppCompatActivity {
         startButton.setVisibility(View.VISIBLE);
 
         if (maxpressure>0){
-            Toast.makeText(this, "Saving pressure", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Saving data wait ...", Toast.LENGTH_SHORT).show();
             Calendar c = Calendar.getInstance();
             int mYear = c.get(Calendar.YEAR);
             int mMonth = c.get(Calendar.MONTH)+1;
             int mDay = c.get(Calendar.DAY_OF_MONTH);
-
-           // SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-
             TrainingLog trainingLog = new TrainingLog(""+mDay+"."+mMonth+"."+mYear, maxpressure);
-            //Toast.makeText(this, ""+mDay+"."+mMonth+"."+mYear, Toast.LENGTH_SHORT).show();
             db.trainingDao().insert(trainingLog);
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
         }
-
     }
 
 
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, HomeActivity.class));
-        /*if(myBean.isConnected()){
+        if(myBean.isConnected()){
             myBean.disconnect();
-        }*/
+        }
       return;
     }
 

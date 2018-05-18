@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -54,16 +55,18 @@ public class Workoutfragment extends Fragment {
             series = new LineGraphSeries<>();
             for (int i=0; i<db.trainingDao().getLog().size(); i++){
                 x=db.trainingDao().getLog().get(i).getDato();
-
-                Date date = new SimpleDateFormat("dd.MM.yy").parse(x);
-               // DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                //Date date = format.parse(x);
-                //Date date1 = new SimpleDateFormat("dd.MM.yyyy").format(date);
-                Toast.makeText(getContext(), date.toString(), Toast.LENGTH_SHORT).show();
-                y=db.trainingDao().getLog().get(i).getMax();
+               DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+               Date date = format.parse(x);
+               Toast.makeText(getContext(), date.toString(), Toast.LENGTH_SHORT).show();
+               y=db.trainingDao().getLog().get(i).getMax();
                series.appendData(new DataPoint(date, y), true, db.trainingDao().getLog().size());
             }
-           graph.addSeries(series);
+            graph.addSeries(series);
+
+            String Scores = "Scores";
+            graph.setTitle(Scores);
+            graph.setTitleTextSize(40);
+            graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
 
         }
     }
