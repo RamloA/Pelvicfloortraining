@@ -20,7 +20,5 @@ public interface TrainingDao {
     @Insert
     void insert(TrainingLog... trainingLog);
 
-    //@Query("SELECT COUNT(*) from `traininglog`")
-    //int counttraininglog();
 
 }

@@ -25,7 +25,6 @@ public class Waterfragment extends Fragment {
         return view;
     }
     private void initBeans() {
-        //Error ses i logcat pga. vi ikke kalder den i onStart
         db = Room.databaseBuilder(getContext(), AppDatabase.class, "Fluidintake")
                 .allowMainThreadQueries()
                 .build();

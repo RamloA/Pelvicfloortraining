@@ -8,21 +8,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
-import java.util.Locale;
+
 
 public class Workoutfragment extends Fragment {
     LineGraphSeries<DataPoint> series;
@@ -38,7 +32,6 @@ public class Workoutfragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return view;
     }
 
@@ -57,12 +50,10 @@ public class Workoutfragment extends Fragment {
                 x=db.trainingDao().getLog().get(i).getDato();
                DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
                Date date = format.parse(x);
-               Toast.makeText(getContext(), date.toString(), Toast.LENGTH_SHORT).show();
                y=db.trainingDao().getLog().get(i).getMax();
                series.appendData(new DataPoint(date, y), true, db.trainingDao().getLog().size());
             }
             graph.addSeries(series);
-
             String Scores = "Scores";
             graph.setTitle(Scores);
             graph.setTitleTextSize(40);

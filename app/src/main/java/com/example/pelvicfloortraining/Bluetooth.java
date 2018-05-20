@@ -121,7 +121,6 @@ public class Bluetooth extends AppCompatActivity {
         super.onStart();
         BeanManager.getInstance().startDiscovery(listener);
         BeanManager.getInstance().setScanTimeout(15);
-
     }
 
     BeanDiscoveryListener listener = new BeanDiscoveryListener() {
@@ -136,7 +135,6 @@ public class Bluetooth extends AppCompatActivity {
         @Override
         public void onDiscoveryComplete() {
             // This is called when the scan times out, defined by the .setScanTimeout(int seconds) method
-            // Printer det samme 2 gange
             for (Bean bean : beans) {
                 Log.d("Bluetooth2", String.valueOf(bean.getDevice().getName()));
                 //System.out.println(bean.getDevice().getName());   // "Bean"              (example)
@@ -148,7 +146,6 @@ public class Bluetooth extends AppCompatActivity {
     };
 
     private void initBeans(){
-        //Error ses i logcat pga. vi ikke kalder den i onStart
         for (int i=0; i<beans.size(); i++){
             if(i==0) {
                 mBeanAdd.add(String.valueOf(beans.get(i).getDevice().getAddress()));
